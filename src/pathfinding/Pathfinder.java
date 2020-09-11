@@ -15,6 +15,7 @@ public class Pathfinder {
     public static final int BLOCKED = 1;
 
     private int[][] maze;
+    private Node startNode, endNode;
     
     public Pathfinder() {
         this.maze = new int[10][10];
