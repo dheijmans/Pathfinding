@@ -5,6 +5,8 @@
  */
 package pathfinding;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Dennis
@@ -16,6 +18,8 @@ public class Pathfinder {
 
     private int[][] maze;
     private Node startNode, endNode;
+    ArrayList<Node> open = new ArrayList<Node>();
+    ArrayList<Node> closed = new ArrayList<Node>();
     
     public Pathfinder() {
         this.maze = new int[10][10];
@@ -43,6 +47,24 @@ public class Pathfinder {
         }
     }
     
+    private void aStar() {
+        this.startNode.setF(0, distance(this.startNode, this.endNode));
+        this.endNode.setF(distance(this.startNode, this.endNode), 0);
+        open.add(this.startNode);
+        
+        while (true) {
+            Node current = this.setCurrent();
+        }
+    }
+    
+    private int distance(Node a, Node b) {
+        return Math.abs(a.getX() - b.getX()) + Math.abs(a.getY() - b.getY());
+    }
+    
+    private Node setCurrent() {
+        
+    }
+    
     public static void main(String[] args) {
         Pathfinder pathfinder = new Pathfinder();
         pathfinder.maze = new int[][] {
@@ -58,6 +80,9 @@ public class Pathfinder {
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
         };
         pathfinder.printMaze();
+        pathfinder.startNode = new Node(1, 1);
+        pathfinder.endNode = new Node(8, 8);
+        pathfinder.aStar();
     }
     
 }
