@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -6,6 +6,8 @@
 package pathfinding;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  *
@@ -50,10 +52,22 @@ public class Pathfinder {
     private void aStar() {
         this.startNode.setF(0, distance(this.startNode, this.endNode));
         this.endNode.setF(distance(this.startNode, this.endNode), 0);
-        open.add(this.startNode);
+        this.open.add(this.startNode);
         
         while (true) {
             Node current = this.setCurrent();
+            this.open.remove(0);
+            this.closed.add(current);
+            
+            if (current.equals(this.endNode)) {
+                return;
+            }
+            
+            ArrayList<Node> neighbours = getNeighbours(current);
+            for (Node neighbour : neighbours) 
+            { 
+                //do some stuff
+            }
         }
     }
     
@@ -62,7 +76,26 @@ public class Pathfinder {
     }
     
     private Node setCurrent() {
+        Collections.sort(this.open, new Comparator<Node>() {
+            public int compare(Node a, Node b) {
+                return Integer.compare(a.getF(), b.getF());
+            }
+        });
+        return this.open.get(0);        
+    }
+    
+    private ArrayList<Node> getNeighbours(Node n) {
+        int x = n.getX();
+        int y = n.getY();
         
+        ArrayList<Node> neighbours = new ArrayList<Node>();
+        
+        neighbours.add(new Node(x - 1, y));
+        neighbours.add(new Node(x + 1, y));
+        neighbours.add(new Node(x, y - 1));
+        neighbours.add(new Node(x, y + 1));
+        
+        return neighbours;
     }
     
     public static void main(String[] args) {

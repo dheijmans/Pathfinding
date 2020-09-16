@@ -37,6 +37,10 @@ public class Node {
         return this.y;
     }
     
+    public int getF() {
+        return this.f;
+    }
+    
     public void setF(int g, int h) {
         this.g = g;
         this.h = h;
