@@ -31,19 +31,27 @@ public class Pathfinder {
     public void printMaze() {
         System.out.print("  ");
         for (int x = 1; x < this.maze[0].length - 1; x++) {
-            System.out.print(x + " ");
+            System.out.print(x % 10 + " ");
         }
         System.out.println();
         for (int y = 0; y < this.maze.length; y++) {
             for (int x = 0; x < this.maze[0].length; x++) {
                 if (this.maze[y][x] == UNBLOCKED) {
-                    System.out.print("_ ");
+                    if (this.startNode.getX() == x && this.startNode.getY() == y) {
+                        System.out.print("S ");
+                    } else if (this.endNode.getX() == x && this.endNode.getY() == y) {
+                        System.out.print("O ");
+                    } else if (isInList(new Node(x, y), this.path)) {
+                        System.out.print("* ");
+                    } else {
+                        System.out.print("_ ");
+                    }
                 } else if(this.maze[y][x] == BLOCKED) {
                     System.out.print("X ");
                 }
             }
             if (y > 0 && y < this.maze.length - 1) {
-                System.out.println(y);
+                System.out.println(y % 10);
             } else {
                 System.out.println();
             }
@@ -163,24 +171,22 @@ public class Pathfinder {
         Pathfinder pathfinder = new Pathfinder();
         pathfinder.maze = new int[][] {
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {1, 0, 0, 0, 0, 0, 0, 1, 0, 1},
-            {1, 0, 1, 0, 1, 0, 1, 1, 0, 1},
-            {1, 0, 1, 0, 1, 0, 0, 1, 0, 1},
-            {1, 0, 0, 0, 1, 0, 1, 1, 0, 1},
-            {1, 1, 1, 0, 0, 0, 0, 0, 0, 1},
-            {1, 0, 1, 0, 1, 0, 0, 1, 0, 1},
-            {1, 0, 1, 0, 1, 1, 0, 1, 0, 1},
-            {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+            {1, 0, 0, 0, 1, 1, 0, 1, 0, 1},
+            {1, 0, 1, 0, 0, 1, 0, 0, 0, 1},
+            {1, 0, 1, 1, 0, 0, 0, 1, 0, 1},
+            {1, 0, 1, 0, 0, 1, 0, 0, 0, 1},
+            {1, 0, 0, 0, 1, 1, 0, 1, 0, 1},
+            {1, 0, 1, 0, 0, 1, 0, 1, 0, 1},
+            {1, 0, 1, 1, 0, 0, 0, 1, 0, 1},
+            {1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
         };
-        pathfinder.printMaze();
         pathfinder.startNode = new Node(1, 1);
         pathfinder.endNode = new Node(8, 8);
+        pathfinder.printMaze();
         pathfinder.aStar();
-        System.out.println("Path:");
-        for (Node n : pathfinder.path) { 
-            System.out.println(n.getX() + ", " + n.getY());
-        }
+        System.out.println();
+        pathfinder.printMaze();
     }
     
 }
