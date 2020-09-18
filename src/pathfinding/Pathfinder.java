@@ -66,7 +66,13 @@ public class Pathfinder {
             ArrayList<Node> neighbours = getNeighbours(current);
             for (Node neighbour : neighbours) 
             { 
-                //do some stuff
+                if (isBlocked(neighbour) || isInList(neighbour, this.closed)) {
+                    continue;
+                }
+                
+                if (current.getG() + distance(current, neighbour) < neighbour.getG() || !isInList(neighbour, this.open)) {
+                    //Do some stuff
+                }
             }
         }
     }
@@ -81,7 +87,7 @@ public class Pathfinder {
                 return Integer.compare(a.getF(), b.getF());
             }
         });
-        return this.open.get(0);        
+        return this.open.get(0);
     }
     
     private ArrayList<Node> getNeighbours(Node n) {
@@ -90,12 +96,38 @@ public class Pathfinder {
         
         ArrayList<Node> neighbours = new ArrayList<Node>();
         
-        neighbours.add(new Node(x - 1, y));
-        neighbours.add(new Node(x + 1, y));
-        neighbours.add(new Node(x, y - 1));
-        neighbours.add(new Node(x, y + 1));
+        neighbours.add(makeNeighbourNode(x - 1, y));
+        neighbours.add(makeNeighbourNode(x + 1, y));
+        neighbours.add(makeNeighbourNode(x, y - 1));
+        neighbours.add(makeNeighbourNode(x, y + 1));
         
         return neighbours;
+    }
+    
+    private Node makeNeighbourNode(int x, int y) {
+        for (Node n : this.open) { 
+            if (n.getX() == x && n.getY() == y) {
+                return n;
+            }
+        }
+        return new Node(x, y);
+    }
+    
+    private boolean isInList(Node a, ArrayList<Node> list) {
+        for (Node b : list) { 
+            if (b.getX() == a.getX() && b.getY() == a.getY()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private boolean isBlocked(Node n) {
+        if (this.maze[n.getX()][n.getY()] == BLOCKED) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
     public static void main(String[] args) {
