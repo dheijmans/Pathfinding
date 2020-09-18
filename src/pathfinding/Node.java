@@ -45,10 +45,18 @@ public class Node {
         return this.g;
     }
     
+    public Node getParent() {
+        return this.parent;
+    }
+    
     public void setF(int g, int h) {
         this.g = g;
         this.h = h;
         this.f = g + h;
+    }
+    
+    public void setParent(Node parent) {
+        this.parent = parent;
     }
 
 }

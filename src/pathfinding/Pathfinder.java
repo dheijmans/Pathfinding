@@ -22,6 +22,7 @@ public class Pathfinder {
     private Node startNode, endNode;
     ArrayList<Node> open = new ArrayList<Node>();
     ArrayList<Node> closed = new ArrayList<Node>();
+    ArrayList<Node> path = new ArrayList<Node>();
     
     public Pathfinder() {
         this.maze = new int[10][10];
@@ -51,15 +52,15 @@ public class Pathfinder {
     
     private void aStar() {
         this.startNode.setF(0, distance(this.startNode, this.endNode));
-        this.endNode.setF(distance(this.startNode, this.endNode), 0);
         this.open.add(this.startNode);
         
         while (true) {
             Node current = this.setCurrent();
-            this.open.remove(0);
+            this.open.remove(current);
             this.closed.add(current);
             
-            if (current.equals(this.endNode)) {
+            if (current.getX() == endNode.getX() && current.getY() == endNode.getY()) {
+                retracePath(current);
                 return;
             }
             
@@ -71,13 +72,19 @@ public class Pathfinder {
                 }
                 
                 if (current.getG() + distance(current, neighbour) < neighbour.getG() || !isInList(neighbour, this.open)) {
-                    //Do some stuff
+                    neighbour.setF(current.getG() + distance(current, neighbour), distance(neighbour, this.endNode));
+                    neighbour.setParent(current);
+                    if (!isInList(neighbour, this.open)) {
+                        this.open.add(neighbour);
+                    } else {
+                        updateOpen(neighbour);                       
+                    }                        
                 }
             }
         }
     }
     
-    private int distance(Node a, Node b) {
+    private static int distance(Node a, Node b) {
         return Math.abs(a.getX() - b.getX()) + Math.abs(a.getY() - b.getY());
     }
     
@@ -113,7 +120,7 @@ public class Pathfinder {
         return new Node(x, y);
     }
     
-    private boolean isInList(Node a, ArrayList<Node> list) {
+    private static boolean isInList(Node a, ArrayList<Node> list) {
         for (Node b : list) { 
             if (b.getX() == a.getX() && b.getY() == a.getY()) {
                 return true;
@@ -123,11 +130,33 @@ public class Pathfinder {
     }
     
     private boolean isBlocked(Node n) {
-        if (this.maze[n.getX()][n.getY()] == BLOCKED) {
+        if (this.maze[n.getY()][n.getX()] == BLOCKED) {
             return true;
         } else {
             return false;
         }
+    }
+    
+    private void updateOpen(Node n) {
+        for (Node a : this.open) { 
+            if (a.getX() == n.getX() && a.getY() == n.getY()) {
+                this.open.remove(a);
+                this.open.add(n);
+                return;
+            }
+        }
+    }
+    
+    private void retracePath(Node n) {
+        ArrayList<Node> path = new ArrayList<Node>();
+        path.add(n);
+        Node parent = n.getParent();
+        while (parent != null) {
+            path.add(parent);
+            parent = parent.getParent();
+        }
+        Collections.reverse(path);
+        this.path = path;
     }
     
     public static void main(String[] args) {
@@ -148,6 +177,10 @@ public class Pathfinder {
         pathfinder.startNode = new Node(1, 1);
         pathfinder.endNode = new Node(8, 8);
         pathfinder.aStar();
+        System.out.println("Path:");
+        for (Node n : pathfinder.path) { 
+            System.out.println(n.getX() + ", " + n.getY());
+        }
     }
     
 }
