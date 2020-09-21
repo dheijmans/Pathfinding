@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pathfinding;
 
 import javafx.scene.canvas.Canvas;
@@ -12,33 +7,43 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
 
-/**
- *
- * @author 120006994
- */
 public class MainView extends VBox {
-    private final int width;
-    private final int height;
     
-    private Affine affine;
+    private final int gridWidth;
+    private final int gridHeight;
     
-    private Button runBtn;
-    private Canvas canvas;
-    
+    private final Affine affine;
+    private final Button runBtn;
+    private final Canvas canvas;
     
     public MainView(int width, int height) {
-        this.width = width;
-        this.height = height;
+        this.gridWidth = 64;
+        this.gridHeight = 36;
         
         this.runBtn = new Button("RUN");
-        this.canvas = new Canvas(this.width, this.height);
+        this.canvas = new Canvas(width, height);
         
         this.affine = new Affine();
-        this.affine.appendScale(this.width / 10f, this.height / 10f);
-        
+        this.affine.appendScale(this.canvas.getWidth() / this.gridWidth, this.canvas.getHeight() / this.gridHeight);
         
         this.getChildren().addAll(this.runBtn, this.canvas);
         
+        Pathfinder pathfinder = new Pathfinder(this.gridWidth, this.gridHeight);
+        pathfinder.maze = new int[][] {
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 0, 0, 0, 1, 1, 0, 1, 0, 1},
+            {1, 0, 1, 0, 0, 1, 0, 0, 0, 1},
+            {1, 0, 1, 1, 0, 0, 0, 1, 0, 1},
+            {1, 0, 1, 0, 0, 1, 0, 0, 0, 1},
+            {1, 0, 0, 0, 1, 1, 0, 1, 0, 1},
+            {1, 0, 1, 0, 0, 1, 0, 1, 0, 1},
+            {1, 0, 1, 1, 0, 0, 0, 1, 0, 1},
+            {1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+        };
+        pathfinder.startNode = new Node(1, 1);
+        pathfinder.endNode = new Node(8, 8);    
+        pathfinder.printMaze();
     }
     
     public void draw() {
@@ -46,26 +51,24 @@ public class MainView extends VBox {
         g.setTransform(this.affine);
         
         g.setFill(Color.LIGHTGRAY);
-        g.fillRect(0,0,this.width,this.height);
+        g.fillRect(0,0,this.gridWidth,this.gridHeight);
         
         g.setStroke(Color.BLACK);
         g.setLineWidth(0.05f);
-        for(int i = 0; i < this.width; i++) {
-            g.strokeLine(i, 0, i, this.width);
+        for (int i = 0; i < this.gridWidth; i++) {
+            g.strokeLine(i, 0d, i, this.gridHeight);
         }
-        
-        for(int i = 0; i < this.height; i++) {
-            g.strokeLine(0, i, this.height, i);
+        for (int i = 0; i < this.gridHeight; i++) {
+            g.strokeLine(0, i, this.gridWidth, i);
         }
     }
     
     public int getCanvasWidth() {
-        return this.width;
+        return (int) this.canvas.getWidth();
     }
     
     public int getCanvasHeight() {
-        return this.height;
+        return (int) this.canvas.getHeight();
     }
-    
     
 }
