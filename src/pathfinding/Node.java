@@ -20,15 +20,6 @@ public class Node {
         this.y = y;
     }
     
-    public Node(int x, int y, int g, int h, Node parent) {
-        this.x = x;
-        this.y = y;
-        this.g = g;
-        this.h = h;
-        this.f = g + h;
-        this.parent = parent;
-    }
-    
     public int getX() {
         return this.x;
     }
@@ -57,6 +48,14 @@ public class Node {
     
     public void setParent(Node parent) {
         this.parent = parent;
+    }
+    
+    public boolean isSameNodeAs(Node n) {
+        return this.x == n.getX() && this.y == n.getY();
+    }
+    
+    public boolean isSameNodeAs(int x, int y) {
+        return this.x == x && this.y == y;
     }
 
 }

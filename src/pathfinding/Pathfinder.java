@@ -20,9 +20,9 @@ public class Pathfinder {
 
     private int[][] maze;
     private Node startNode, endNode;
-    ArrayList<Node> open = new ArrayList<Node>();
-    ArrayList<Node> closed = new ArrayList<Node>();
-    ArrayList<Node> path = new ArrayList<Node>();
+    private ArrayList<Node> open = new ArrayList<Node>();
+    private ArrayList<Node> closed = new ArrayList<Node>();
+    private ArrayList<Node> path = new ArrayList<Node>();
     
     public Pathfinder() {
         this.maze = new int[10][10];
@@ -37,9 +37,9 @@ public class Pathfinder {
         for (int y = 0; y < this.maze.length; y++) {
             for (int x = 0; x < this.maze[0].length; x++) {
                 if (this.maze[y][x] == UNBLOCKED) {
-                    if (this.startNode.getX() == x && this.startNode.getY() == y) {
+                    if (this.startNode.isSameNodeAs(x, y)) {
                         System.out.print("S ");
-                    } else if (this.endNode.getX() == x && this.endNode.getY() == y) {
+                    } else if (this.endNode.isSameNodeAs(x, y)) {
                         System.out.print("O ");
                     } else if (isInList(new Node(x, y), this.path)) {
                         System.out.print("* ");
@@ -67,7 +67,7 @@ public class Pathfinder {
             this.open.remove(current);
             this.closed.add(current);
             
-            if (current.getX() == endNode.getX() && current.getY() == endNode.getY()) {
+            if (current.isSameNodeAs(this.endNode)) {
                 retracePath(current);
                 return;
             }
@@ -79,8 +79,10 @@ public class Pathfinder {
                     continue;
                 }
                 
-                if (current.getG() + distance(current, neighbour) < neighbour.getG() || !isInList(neighbour, this.open)) {
-                    neighbour.setF(current.getG() + distance(current, neighbour), distance(neighbour, this.endNode));
+                if (isNewPathShorter(current, neighbour) || !isInList(neighbour, this.open)) {
+                    int g = current.getG() + distance(current, neighbour);
+                    int h = distance(neighbour, this.endNode);
+                    neighbour.setF(g, h);
                     neighbour.setParent(current);
                     if (!isInList(neighbour, this.open)) {
                         this.open.add(neighbour);
@@ -111,26 +113,26 @@ public class Pathfinder {
         
         ArrayList<Node> neighbours = new ArrayList<Node>();
         
-        neighbours.add(makeNeighbourNode(x - 1, y));
-        neighbours.add(makeNeighbourNode(x + 1, y));
-        neighbours.add(makeNeighbourNode(x, y - 1));
-        neighbours.add(makeNeighbourNode(x, y + 1));
+        neighbours.add(getNeighbourNode(x - 1, y));
+        neighbours.add(getNeighbourNode(x + 1, y));
+        neighbours.add(getNeighbourNode(x, y - 1));
+        neighbours.add(getNeighbourNode(x, y + 1));
         
         return neighbours;
     }
     
-    private Node makeNeighbourNode(int x, int y) {
+    private Node getNeighbourNode(int x, int y) {
         for (Node n : this.open) { 
-            if (n.getX() == x && n.getY() == y) {
+            if (n.isSameNodeAs(x, y)) {
                 return n;
             }
         }
         return new Node(x, y);
     }
     
-    private static boolean isInList(Node a, ArrayList<Node> list) {
-        for (Node b : list) { 
-            if (b.getX() == a.getX() && b.getY() == a.getY()) {
+    private static boolean isInList(Node n, ArrayList<Node> list) {
+        for (Node a : list) { 
+            if (n.isSameNodeAs(a)) {
                 return true;
             }
         }
@@ -138,16 +140,16 @@ public class Pathfinder {
     }
     
     private boolean isBlocked(Node n) {
-        if (this.maze[n.getY()][n.getX()] == BLOCKED) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.maze[n.getY()][n.getX()] == BLOCKED;
+    }
+    
+    private boolean isNewPathShorter(Node current, Node neighbour) {
+        return current.getG() + distance(current, neighbour) < neighbour.getG();
     }
     
     private void updateOpen(Node n) {
         for (Node a : this.open) { 
-            if (a.getX() == n.getX() && a.getY() == n.getY()) {
+            if (n.isSameNodeAs(a)) {
                 this.open.remove(a);
                 this.open.add(n);
                 return;
@@ -165,6 +167,18 @@ public class Pathfinder {
         }
         Collections.reverse(path);
         this.path = path;
+    }
+    
+    public ArrayList<Node> getOpen() {
+        return this.open;
+    }
+    
+    public ArrayList<Node> getClosed() {
+        return this.closed;
+    }
+    
+    public ArrayList<Node> getPath() {
+        return this.path;
     }
     
     public static void main(String[] args) {
