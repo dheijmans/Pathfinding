@@ -34,7 +34,7 @@ public class MainView extends VBox {
         this.canvas = new Canvas(this.width, this.height);
         
         this.affine = new Affine();
-        this.affine.appendScale(500 / 10f, 500 / 10f);
+        this.affine.appendScale(this.width / 10f, this.height / 10f);
         
         
         this.getChildren().addAll(this.runBtn, this.canvas);
@@ -45,8 +45,18 @@ public class MainView extends VBox {
         GraphicsContext g = this.canvas.getGraphicsContext2D();
         g.setTransform(this.affine);
         
-        g.setFill(Color.GREEN);
+        g.setFill(Color.LIGHTGRAY);
         g.fillRect(0,0,this.width,this.height);
+        
+        g.setStroke(Color.BLACK);
+        g.setLineWidth(0.05f);
+        for(int i = 0; i < this.width; i++) {
+            g.strokeLine(i, 0, i, this.width);
+        }
+        
+        for(int i = 0; i < this.height; i++) {
+            g.strokeLine(0, i, this.height, i);
+        }
     }
     
     public int getCanvasWidth() {

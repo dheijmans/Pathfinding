@@ -15,10 +15,13 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
     
+    int width = 1600;
+    int height = 900;
+    
     @Override
     public void start(Stage stage) {
-        MainView mainView = new MainView(1600,900);
-        Scene scene = new Scene(mainView, 640, 480);
+        MainView mainView = new MainView(width, height);
+        Scene scene = new Scene(mainView, width, height);
         stage.setScene(scene);
         stage.show();
         mainView.draw();
