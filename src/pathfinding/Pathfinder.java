@@ -72,7 +72,7 @@ public class Pathfinder {
                     } else {
                         System.out.print("_ ");
                     }
-                } else if(this.maze[y][x] == BLOCKED) {
+                } else if (this.maze[y][x] == BLOCKED) {
                     System.out.print("X ");
                 }
             }
@@ -88,7 +88,7 @@ public class Pathfinder {
         return Math.abs(a.getX() - b.getX()) + Math.abs(a.getY() - b.getY());
     }
     
-    private static boolean isInList(Node n, ArrayList<Node> list) {
+    public static boolean isInList(Node n, ArrayList<Node> list) {
         for (Node a : list) { 
             if (n.isSameNodeAs(a)) {
                 return true;
