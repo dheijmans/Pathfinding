@@ -2,14 +2,14 @@ package pathfinding;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
-import static pathfinding.Pathfinder.BLOCKED;
-import static pathfinding.Pathfinder.UNBLOCKED;
 
 public class MainView extends VBox {
+    
+    private final int width = 1600;
+    private final int height = 900;
     
     private final int gridWidth;
     private final int gridHeight;
@@ -21,12 +21,13 @@ public class MainView extends VBox {
     
     private final Pathfinder pf;
     
-    public MainView(int width, int height) {
+    public MainView() {
         this.gridWidth = 64;
         this.gridHeight = 36;
         
-        this.canvas = new Canvas(width, height);
-       
+        this.toolbar = new Toolbar(this);
+        
+        this.canvas = new Canvas(this.width, this.height);
         
         this.affine = new Affine();
         this.affine.appendScale(this.canvas.getWidth() / (this.gridWidth + 2 * this.padding), this.canvas.getHeight() / (this.gridHeight + 2 * this.padding));
@@ -36,7 +37,6 @@ public class MainView extends VBox {
         this.pf.startNode = new Node(3, 6);
         this.pf.endNode = new Node(57, 28);
        
-        this.toolbar = new Toolbar(this);
         this.getChildren().addAll(this.toolbar, this.canvas);
     }
     
@@ -49,7 +49,7 @@ public class MainView extends VBox {
 
         for (int y = 0; y < this.pf.maze.length; y++) {
             for (int x = 0; x < this.pf.maze[0].length; x++) {
-                if (this.pf.maze[y][x] == UNBLOCKED) {
+                if (this.pf.maze[y][x] == Pathfinder.UNBLOCKED) {
                     if (this.pf.startNode.isSameNodeAs(x, y)) {
                         g.setFill(Color.GOLD);
                     } else if (this.pf.endNode.isSameNodeAs(x, y)) {
@@ -64,7 +64,7 @@ public class MainView extends VBox {
                         continue;
                     }
                     g.fillRect(x, y, 1, 1);
-                } else if (this.pf.maze[y][x] == BLOCKED) {
+                } else if (this.pf.maze[y][x] == Pathfinder.BLOCKED) {
                     g.setFill(Color.BLACK);
                     g.fillRect(x, y, 1, 1);
                 }

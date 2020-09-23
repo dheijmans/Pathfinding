@@ -10,7 +10,6 @@ public class Toolbar extends ToolBar {
     
     public Toolbar(MainView mainView) {
         this.mainView = mainView;
-
         Button runButton = new Button("Run");
         runButton.setOnAction(this::handleRun);
         this.getItems().addAll(runButton);
@@ -18,7 +17,6 @@ public class Toolbar extends ToolBar {
     
     private void handleRun(ActionEvent event) {
         this.mainView.getPathfinder().aStar();
-        this.mainView.draw();
     }
 
 }

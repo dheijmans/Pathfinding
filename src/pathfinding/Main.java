@@ -6,13 +6,10 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     
-    private final int width = 1600;
-    private final int height = 900;
-    
     @Override
     public void start(Stage stage) {
-        MainView mainView = new MainView(width, height);
-        Scene scene = new Scene(mainView, width, height + 25);
+        MainView mainView = new MainView();
+        Scene scene = new Scene(mainView, 1600, 945);
         stage.setScene(scene);
         stage.show();
         mainView.draw();
@@ -21,7 +18,5 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
-    
-    
+
 }
