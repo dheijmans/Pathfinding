@@ -53,10 +53,10 @@ public class MainView extends VBox {
                         gc.setFill(Color.DARKORCHID);
                     } else if (Pathfinder.isInList(new Node(x, y), this.pf.getPath())) {
                         gc.setFill(Color.DEEPSKYBLUE);
-                    } else if (Pathfinder.isInList(new Node(x, y), this.pf.getClosed())) {
-                        gc.setFill(Color.RED);
                     } else if (Pathfinder.isInList(new Node(x, y), this.pf.getOpen())) {
                         gc.setFill(Color.LIME);
+                    } else if (Pathfinder.isInList(new Node(x, y), this.pf.getClosed())) {
+                        gc.setFill(Color.RED);
                     } else {
                         continue;
                     }

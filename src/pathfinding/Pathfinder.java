@@ -82,9 +82,9 @@ public class Pathfinder {
             for (int x = 0; x < this.maze[0].length; x++) {
                 if (this.maze[y][x] == UNBLOCKED) {
                     if (this.startNode.isSameNodeAs(x, y)) {
-                        System.out.print("S ");
+                        System.out.print("A ");
                     } else if (this.endNode.isSameNodeAs(x, y)) {
-                        System.out.print("O ");
+                        System.out.print("B ");
                     } else if (isInList(new Node(x, y), this.path)) {
                         System.out.print("* ");
                     } else {
