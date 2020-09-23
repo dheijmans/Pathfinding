@@ -11,12 +11,15 @@ public class Pathfinder {
 
     public int[][] maze;
     public Node startNode, endNode;
+    
+    private final MainView mainView;
     private ArrayList<Node> open = new ArrayList<Node>();
     private ArrayList<Node> closed = new ArrayList<Node>();
     private ArrayList<Node> path = new ArrayList<Node>();
     
-    public Pathfinder(int width, int height) {
+    public Pathfinder(int width, int height, MainView mv) {
         this.maze = new int[height][width];
+        this.mainView = mv;
     }
     
     public void aStar() {
@@ -25,7 +28,38 @@ public class Pathfinder {
         this.path.clear();
         this.startNode.setF(0, distance(this.startNode, this.endNode));
         this.open.add(this.startNode);
-        while (true) {
+//        while (true) {
+//            Node current = this.setCurrent();
+//            this.open.remove(current);
+//            this.closed.add(current);
+//            if (current.isSameNodeAs(this.endNode)) {
+//                retracePath(current);
+//                return;
+//            } 
+//            ArrayList<Node> neighbours = getNeighbours(current);
+//            for (Node neighbour : neighbours) 
+//            { 
+//                if (isBlocked(neighbour) || isInList(neighbour, this.closed)) {
+//                    continue;
+//                }    
+//                if (isNewPathShorter(current, neighbour) || !isInList(neighbour, this.open)) {
+//                    int g = current.getG() + distance(current, neighbour);
+//                    int h = distance(neighbour, this.endNode);
+//                    neighbour.setF(g, h);
+//                    neighbour.setParent(current);
+//                    if (!isInList(neighbour, this.open)) {
+//                        this.open.add(neighbour);
+//                    } else {
+//                        updateOpen(neighbour);                       
+//                    }                        
+//                }
+//            }
+//            mainView.draw();
+//        }
+        step();
+    }
+    
+    private void step() {
             Node current = this.setCurrent();
             this.open.remove(current);
             this.closed.add(current);
@@ -51,7 +85,7 @@ public class Pathfinder {
                     }                        
                 }
             }
-        }
+            mainView.draw();
     }
     
      public void printMaze() {

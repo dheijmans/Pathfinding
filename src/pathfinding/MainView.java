@@ -16,7 +16,7 @@ public class MainView extends VBox {
     private final int padding = 1;
     
     private final Affine affine;
-    private final Button runButton;
+    private final Toolbar toolbar;
     private final Canvas canvas;
     
     private final Pathfinder pf;
@@ -25,19 +25,19 @@ public class MainView extends VBox {
         this.gridWidth = 64;
         this.gridHeight = 36;
         
-        this.runButton = new Button("Run");
         this.canvas = new Canvas(width, height);
+       
         
         this.affine = new Affine();
         this.affine.appendScale(this.canvas.getWidth() / (this.gridWidth + 2 * this.padding), this.canvas.getHeight() / (this.gridHeight + 2 * this.padding));
         this.affine.appendTranslation(this.padding, this.padding);
         
-        this.getChildren().addAll(this.canvas);
-        
-        this.pf = new Pathfinder(this.gridWidth, this.gridHeight);
+        this.pf = new Pathfinder(this.gridWidth, this.gridHeight, this);
         this.pf.startNode = new Node(3, 6);
-        this.pf.endNode = new Node(57, 28);    
-        this.pf.aStar();
+        this.pf.endNode = new Node(57, 28);
+       
+        this.toolbar = new Toolbar(this);
+        this.getChildren().addAll(this.toolbar, this.canvas);
     }
     
     public void draw() {
@@ -79,6 +79,10 @@ public class MainView extends VBox {
         for (int i = 0; i < this.gridHeight + 1; i++) {
             g.strokeLine(0, i, this.gridWidth, i);
         }
+    }
+    
+    public Pathfinder getPathfinder() {
+        return this.pf;
     }
     
 }
