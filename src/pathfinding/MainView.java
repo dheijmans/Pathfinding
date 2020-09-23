@@ -8,25 +8,22 @@ import javafx.scene.transform.Affine;
 
 public class MainView extends VBox {
     
-    private final int width = 1600;
-    private final int height = 900;
-    
-    private final int gridWidth;
-    private final int gridHeight;
+    private final int width, height;    
+    private final int gridWidth, gridHeight;
     private final int padding = 1;
     
     private final Affine affine;
     private final Toolbar toolbar;
     private final Canvas canvas;
-    
     private final Pathfinder pf;
     
     public MainView() {
+        this.width = 1600;
+        this.height = 900;
         this.gridWidth = 64;
         this.gridHeight = 36;
         
-        this.toolbar = new Toolbar(this);
-        
+        this.toolbar = new Toolbar(this);   
         this.canvas = new Canvas(this.width, this.height);
         
         this.affine = new Affine();
@@ -41,43 +38,43 @@ public class MainView extends VBox {
     }
     
     public void draw() {
-        GraphicsContext g = this.canvas.getGraphicsContext2D();
-        g.setTransform(this.affine);
+        GraphicsContext gc = this.canvas.getGraphicsContext2D();
+        gc.setTransform(this.affine);
         
-        g.setFill(Color.LIGHTGRAY);
-        g.fillRect(0, 0, this.gridWidth, this.gridHeight);
+        gc.setFill(Color.LIGHTGRAY);
+        gc.fillRect(0, 0, this.gridWidth, this.gridHeight);
 
         for (int y = 0; y < this.pf.maze.length; y++) {
             for (int x = 0; x < this.pf.maze[0].length; x++) {
                 if (this.pf.maze[y][x] == Pathfinder.UNBLOCKED) {
                     if (this.pf.startNode.isSameNodeAs(x, y)) {
-                        g.setFill(Color.GOLD);
+                        gc.setFill(Color.GOLD);
                     } else if (this.pf.endNode.isSameNodeAs(x, y)) {
-                        g.setFill(Color.DARKORCHID);
+                        gc.setFill(Color.DARKORCHID);
                     } else if (Pathfinder.isInList(new Node(x, y), this.pf.getPath())) {
-                        g.setFill(Color.DEEPSKYBLUE);
+                        gc.setFill(Color.DEEPSKYBLUE);
                     } else if (Pathfinder.isInList(new Node(x, y), this.pf.getClosed())) {
-                        g.setFill(Color.RED);
+                        gc.setFill(Color.RED);
                     } else if (Pathfinder.isInList(new Node(x, y), this.pf.getOpen())) {
-                        g.setFill(Color.LIME);
+                        gc.setFill(Color.LIME);
                     } else {
                         continue;
                     }
-                    g.fillRect(x, y, 1, 1);
+                    gc.fillRect(x, y, 1, 1);
                 } else if (this.pf.maze[y][x] == Pathfinder.BLOCKED) {
-                    g.setFill(Color.BLACK);
-                    g.fillRect(x, y, 1, 1);
+                    gc.setFill(Color.BLACK);
+                    gc.fillRect(x, y, 1, 1);
                 }
             }
         }
         
-        g.setStroke(Color.BLACK);
-        g.setLineWidth(0.03d);
+        gc.setStroke(Color.BLACK);
+        gc.setLineWidth(0.03d);
         for (int i = 0; i < this.gridWidth + 1; i++) {
-            g.strokeLine(i, 0, i, this.gridHeight);
+            gc.strokeLine(i, 0, i, this.gridHeight);
         }
         for (int i = 0; i < this.gridHeight + 1; i++) {
-            g.strokeLine(0, i, this.gridWidth, i);
+            gc.strokeLine(0, i, this.gridWidth, i);
         }
     }
     
