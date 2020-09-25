@@ -35,7 +35,15 @@ public class MainView extends VBox {
         this.pf.endNode = new Node(57, 28);
        
         this.getChildren().addAll(this.toolbar, this.canvas);
+        
+        this.canvas.setOnMouseClicked(event -> {
+            int mouseX = (int) Math.floor(event.getX());
+            int mouseY = (int) Math.floor(event.getY());
+            this.pf.maze[mouseY][mouseX] = 1;
+            draw();
+        });
     }
+    
     
     public void draw() {
         GraphicsContext gc = this.canvas.getGraphicsContext2D();

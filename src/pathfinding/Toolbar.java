@@ -8,9 +8,11 @@ public class Toolbar extends ToolBar {
     
     private final MainView mainView;
     
+    public static Button runButton;
+    
     public Toolbar(MainView mainView) {
         this.mainView = mainView;
-        Button runButton = new Button("Run");
+        this.runButton = new Button("Run");
         Button clearButton = new Button("Clear");
         runButton.setOnAction(this::handleRun);
         clearButton.setOnAction(this::handleClear);
@@ -19,6 +21,7 @@ public class Toolbar extends ToolBar {
     
     private void handleRun(ActionEvent event) {
         this.mainView.getPathfinder().aStar();
+        this.runButton.setText("Running");
     }
     
     private void handleClear(ActionEvent event) {

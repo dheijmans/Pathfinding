@@ -58,6 +58,7 @@ public class Pathfinder {
         if (current.isSameNodeAs(this.endNode)) {
             retracePath(current);
             this.timeline.stop();
+            Toolbar.runButton.setText("Run");
         } 
         ArrayList<Node> neighbours = getNeighbours(current);
         for (Node neighbour : neighbours) 
@@ -124,7 +125,7 @@ public class Pathfinder {
             this.maze = new int[this.height][this.width];
             this.mainView.draw();
         } else {
-            
+            // error message and timeline stop
         }
         
     }
