@@ -3,6 +3,8 @@ package pathfinding;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import javafx.animation.Animation;
+import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -15,6 +17,9 @@ public class Pathfinder {
 
     public int[][] maze;
     public Node startNode, endNode;
+    
+    private int height;
+    private int width;
 
     private ArrayList<Node> open = new ArrayList<Node>();
     private ArrayList<Node> closed = new ArrayList<Node>();
@@ -24,7 +29,9 @@ public class Pathfinder {
     private final Timeline timeline;
     
     public Pathfinder(int width, int height, MainView mainView) {
-        this.maze = new int[height][width];
+        this.height = height;
+        this.width = width;
+        this.maze = new int[this.height][this.width];
         this.mainView = mainView;
         this.timeline = new Timeline(new KeyFrame(Duration.millis(10), this::animateStep));
         this.timeline.setCycleCount(Timeline.INDEFINITE);
@@ -104,6 +111,22 @@ public class Pathfinder {
     
     private static int distance(Node a, Node b) {
         return Math.abs(a.getX() - b.getX()) + Math.abs(a.getY() - b.getY());
+    }
+    
+    public void clearView() {
+        if(this.timeline.getStatus() != Status.RUNNING) {
+            this.open.clear();
+            this.closed.clear();
+            this.path.clear();
+            this.maze = null;
+            this.startNode = null;
+            this.endNode = null;
+            this.maze = new int[this.height][this.width];
+            this.mainView.draw();
+        } else {
+            
+        }
+        
     }
     
     public static boolean isInList(Node n, ArrayList<Node> list) {

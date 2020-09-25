@@ -11,12 +11,18 @@ public class Toolbar extends ToolBar {
     public Toolbar(MainView mainView) {
         this.mainView = mainView;
         Button runButton = new Button("Run");
+        Button clearButton = new Button("Clear");
         runButton.setOnAction(this::handleRun);
-        this.getItems().addAll(runButton);
+        clearButton.setOnAction(this::handleClear);
+        this.getItems().addAll(runButton, clearButton);
     }
     
     private void handleRun(ActionEvent event) {
         this.mainView.getPathfinder().aStar();
+    }
+    
+    private void handleClear(ActionEvent event) {
+        this.mainView.getPathfinder().clearView();
     }
 
 }

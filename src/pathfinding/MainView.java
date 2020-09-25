@@ -47,8 +47,13 @@ public class MainView extends VBox {
         for (int y = 0; y < this.pf.maze.length; y++) {
             for (int x = 0; x < this.pf.maze[0].length; x++) {
                 if (this.pf.maze[y][x] == Pathfinder.UNBLOCKED) {
-                    if (this.pf.startNode.isSameNodeAs(x, y)) {
+                    
+                    if(this.pf.startNode == null) {
+                        continue;
+                    } else if (this.pf.startNode.isSameNodeAs(x, y)) {
                         gc.setFill(Color.GOLD);
+                    } else if(this.pf.endNode == null ) {
+                        continue;
                     } else if (this.pf.endNode.isSameNodeAs(x, y)) {
                         gc.setFill(Color.DARKORCHID);
                     } else if (Pathfinder.isInList(new Node(x, y), this.pf.getPath())) {
