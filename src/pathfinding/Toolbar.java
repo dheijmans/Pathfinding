@@ -20,12 +20,17 @@ public class Toolbar extends ToolBar {
     }
     
     private void handleRun(ActionEvent event) {
-        this.mainView.getPathfinder().aStar();
-        this.runButton.setText("Running");
+        if (this.mainView.mode == MainView.EDITING) {
+            this.mainView.mode = MainView.RUNNING;
+            this.runButton.setText("Running");
+            this.mainView.getPathfinder().aStar(); 
+        }
     }
     
     private void handleClear(ActionEvent event) {
-        this.mainView.getPathfinder().clearView();
+        if (mainView.mode == MainView.EDITING) {
+            this.mainView.getPathfinder().clearView();
+        }
     }
 
 }

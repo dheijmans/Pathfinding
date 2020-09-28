@@ -3,8 +3,6 @@ package pathfinding;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import javafx.animation.Animation;
-import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -18,8 +16,8 @@ public class Pathfinder {
     public int[][] maze;
     public Node startNode, endNode;
     
-    private int height;
-    private int width;
+    private final int height;
+    private final int width;
 
     private ArrayList<Node> open = new ArrayList<Node>();
     private ArrayList<Node> closed = new ArrayList<Node>();
@@ -59,6 +57,7 @@ public class Pathfinder {
             retracePath(current);
             this.timeline.stop();
             Toolbar.runButton.setText("Run");
+            this.mainView.mode = MainView.EDITING;
         } 
         ArrayList<Node> neighbours = getNeighbours(current);
         for (Node neighbour : neighbours) 
@@ -115,19 +114,13 @@ public class Pathfinder {
     }
     
     public void clearView() {
-        if(this.timeline.getStatus() != Status.RUNNING) {
             this.open.clear();
             this.closed.clear();
             this.path.clear();
-            this.maze = null;
+            this.maze = new int[this.height][this.width];
             this.startNode = null;
             this.endNode = null;
-            this.maze = new int[this.height][this.width];
-            this.mainView.draw();
-        } else {
-            // error message and timeline stop
-        }
-        
+            this.mainView.draw();        
     }
     
     public static boolean isInList(Node n, ArrayList<Node> list) {
@@ -161,10 +154,24 @@ public class Pathfinder {
         int x = n.getX();
         int y = n.getY();
         ArrayList<Node> neighbours = new ArrayList<Node>();
-        neighbours.add(getNeighbourNode(x - 1, y));
-        neighbours.add(getNeighbourNode(x + 1, y));
-        neighbours.add(getNeighbourNode(x, y - 1));
-        neighbours.add(getNeighbourNode(x, y + 1));   
+        
+        if ((x - 1) >= 0 && (x - 1) <= this.width && y >= 0 && y <= this.height) {
+            neighbours.add(getNeighbourNode(x - 1, y));
+        }
+        
+        if ((x + 1) >= 0 && (x + 1) <= this.width && y >= 0 && y <= this.height) {
+            neighbours.add(getNeighbourNode(x + 1, y));
+        }
+        
+        if (x >= 0 && x <= this.width && (y - 1) >= 0 && (y - 1) <= this.height) {
+            neighbours.add(getNeighbourNode(x, y - 1));
+        }
+        
+        if (x >= 0 && x <= this.width && (y + 1) >= 0 && (y + 1) <= this.height) {
+            neighbours.add(getNeighbourNode(x, y + 1));
+        } 
+        
+        //Check if neighbours is empty
         return neighbours;
     }
     

@@ -1,12 +1,19 @@
 package pathfinding;
 
+import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
+import javafx.scene.transform.NonInvertibleTransformException;
 
 public class MainView extends VBox {
+    
+    public int mode;
+    public static final int EDITING = 0;
+    public static final int RUNNING = 1;
     
     private final int width, height;    
     private final int gridWidth, gridHeight;
@@ -23,6 +30,8 @@ public class MainView extends VBox {
         this.gridWidth = 64;
         this.gridHeight = 36;
         
+        this.mode = EDITING;
+        
         this.toolbar = new Toolbar(this);   
         this.canvas = new Canvas(this.width, this.height);
         
@@ -36,12 +45,21 @@ public class MainView extends VBox {
        
         this.getChildren().addAll(this.toolbar, this.canvas);
         
-        this.canvas.setOnMouseClicked(event -> {
-            int mouseX = (int) Math.floor(event.getX());
-            int mouseY = (int) Math.floor(event.getY());
-            this.pf.maze[mouseY][mouseX] = 1;
+        this.canvas.setOnMouseClicked(this::handleClickEvent);
+    }
+    
+    private void handleClickEvent(MouseEvent event) {
+        try {
+            double mouseX = event.getX();
+            double mouseY = event.getY();
+            Point2D box = this.affine.inverseTransform(mouseX, mouseY);
+            if (box.getX() >= 0 && box.getX() < this.gridWidth && box.getY() >= 0 && box.getY() < this.gridHeight) {
+                this.pf.maze[(int) box.getY()][(int) box.getX()] = Pathfinder.BLOCKED;
+            }
             draw();
-        });
+        } catch (NonInvertibleTransformException e) {
+            System.out.println("Could not invert transform");
+        }
     }
     
     
