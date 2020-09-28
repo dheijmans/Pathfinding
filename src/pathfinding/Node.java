@@ -42,7 +42,11 @@ public class Node {
     }
     
     public boolean isSameNodeAs(Node n) {
-        return this.x == n.getX() && this.y == n.getY();
+        if (n != null) {
+            return this.x == n.getX() && this.y == n.getY();
+        } else {
+            return false;
+        }           
     }
     
     public boolean isSameNodeAs(int x, int y) {

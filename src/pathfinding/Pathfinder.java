@@ -56,7 +56,6 @@ public class Pathfinder {
         if (current.isSameNodeAs(this.endNode)) {
             retracePath(current);
             this.timeline.stop();
-            Toolbar.runButton.setText("Run");
             this.mainView.mode = MainView.EDITING;
         } 
         ArrayList<Node> neighbours = getNeighbours(current);
@@ -113,16 +112,6 @@ public class Pathfinder {
         return Math.abs(a.getX() - b.getX()) + Math.abs(a.getY() - b.getY());
     }
     
-    public void clearView() {
-            this.open.clear();
-            this.closed.clear();
-            this.path.clear();
-            this.maze = new int[this.height][this.width];
-            this.startNode = null;
-            this.endNode = null;
-            this.mainView.draw();        
-    }
-    
     public static boolean isInList(Node n, ArrayList<Node> list) {
         for (Node a : list) { 
             if (n.isSameNodeAs(a)) {
@@ -151,26 +140,16 @@ public class Pathfinder {
     }
     
     private ArrayList<Node> getNeighbours(Node n) {
-        int x = n.getX();
-        int y = n.getY();
         ArrayList<Node> neighbours = new ArrayList<Node>();
-        
-        if ((x - 1) >= 0 && (x - 1) <= this.width && y >= 0 && y <= this.height) {
-            neighbours.add(getNeighbourNode(x - 1, y));
+        for (int y = -1; y < 2; y++) {
+            for (int x = -1; x < 2; x++) {
+                if (Math.abs(x) == Math.abs(y)) {
+                    continue;
+                } else if (n.getX() + x >= 0 && n.getX() + x < this.width && n.getY() + y >= 0 && n.getY() + y < this.height) {
+                    neighbours.add(getNeighbourNode(n.getX() + x, n.getY() + y));
+                }              
+            }
         }
-        
-        if ((x + 1) >= 0 && (x + 1) <= this.width && y >= 0 && y <= this.height) {
-            neighbours.add(getNeighbourNode(x + 1, y));
-        }
-        
-        if (x >= 0 && x <= this.width && (y - 1) >= 0 && (y - 1) <= this.height) {
-            neighbours.add(getNeighbourNode(x, y - 1));
-        }
-        
-        if (x >= 0 && x <= this.width && (y + 1) >= 0 && (y + 1) <= this.height) {
-            neighbours.add(getNeighbourNode(x, y + 1));
-        } 
-        
         //Check if neighbours is empty
         return neighbours;
     }
@@ -204,6 +183,16 @@ public class Pathfinder {
         }
         Collections.reverse(path);
         this.path = path;
+    }
+    
+    public void clear() {
+            this.open.clear();
+            this.closed.clear();
+            this.path.clear();
+            this.maze = new int[this.height][this.width];
+            this.startNode = null;
+            this.endNode = null;
+            this.mainView.draw();        
     }
     
     public ArrayList<Node> getOpen() {

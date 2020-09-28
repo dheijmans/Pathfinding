@@ -45,21 +45,24 @@ public class MainView extends VBox {
        
         this.getChildren().addAll(this.toolbar, this.canvas);
         
-        this.canvas.setOnMouseClicked(this::handleClickEvent);
+        this.canvas.setOnMouseClicked(this::handleEditing);
+        this.canvas.setOnMouseDragged(this::handleEditing);
     }
     
-    private void handleClickEvent(MouseEvent event) {
-        try {
-            double mouseX = event.getX();
-            double mouseY = event.getY();
-            Point2D box = this.affine.inverseTransform(mouseX, mouseY);
-            if (box.getX() >= 0 && box.getX() < this.gridWidth && box.getY() >= 0 && box.getY() < this.gridHeight) {
-                this.pf.maze[(int) box.getY()][(int) box.getX()] = Pathfinder.BLOCKED;
+    private void handleEditing(MouseEvent event) {
+        if (this.mode == EDITING) {
+            try {
+                double mouseX = event.getX();
+                double mouseY = event.getY();
+                Point2D box = this.affine.inverseTransform(mouseX, mouseY);
+                if (box.getX() >= 0 && box.getX() < this.gridWidth && box.getY() >= 0 && box.getY() < this.gridHeight) {
+                    this.pf.maze[(int) box.getY()][(int) box.getX()] = Pathfinder.BLOCKED;
+                }
+                draw();
+            } catch (NonInvertibleTransformException e) {
+                System.out.println("Could not invert transform");
             }
-            draw();
-        } catch (NonInvertibleTransformException e) {
-            System.out.println("Could not invert transform");
-        }
+        }  
     }
     
     
@@ -73,14 +76,10 @@ public class MainView extends VBox {
         for (int y = 0; y < this.pf.maze.length; y++) {
             for (int x = 0; x < this.pf.maze[0].length; x++) {
                 if (this.pf.maze[y][x] == Pathfinder.UNBLOCKED) {
-                    
-                    if(this.pf.startNode == null) {
-                        continue;
-                    } else if (this.pf.startNode.isSameNodeAs(x, y)) {
+                    Node n = new Node(x, y);
+                    if (n.isSameNodeAs(this.pf.startNode)) {
                         gc.setFill(Color.GOLD);
-                    } else if(this.pf.endNode == null ) {
-                        continue;
-                    } else if (this.pf.endNode.isSameNodeAs(x, y)) {
+                    } else if (n.isSameNodeAs(this.pf.endNode)) {
                         gc.setFill(Color.DARKORCHID);
                     } else if (Pathfinder.isInList(new Node(x, y), this.pf.getPath())) {
                         gc.setFill(Color.DEEPSKYBLUE);
