@@ -50,6 +50,12 @@ public class Pathfinder {
     }
     
     private void step() {
+        if (this.open.isEmpty()) {
+            this.timeline.stop();
+            this.mainView.mode = MainView.EDITING;
+            System.out.println("Impossible path!");
+            return;
+        }
         Node current = this.setCurrent();
         this.open.remove(current);
         this.closed.add(current);
@@ -150,7 +156,6 @@ public class Pathfinder {
                 }              
             }
         }
-        //Check if neighbours is empty
         return neighbours;
     }
     

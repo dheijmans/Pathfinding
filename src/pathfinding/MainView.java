@@ -55,7 +55,12 @@ public class MainView extends VBox {
                 double mouseX = event.getX();
                 double mouseY = event.getY();
                 Point2D box = this.affine.inverseTransform(mouseX, mouseY);
+                
                 if (box.getX() >= 0 && box.getX() < this.gridWidth && box.getY() >= 0 && box.getY() < this.gridHeight) {
+                    if (((int) box.getX() == this.pf.startNode.getX() && (int) box.getY() == this.pf.startNode.getY()) || 
+                        ((int) box.getX() == this.pf.endNode.getX() && (int) box.getY() == this.pf.endNode.getY())) {
+                       return;
+                    }
                     this.pf.maze[(int) box.getY()][(int) box.getX()] = Pathfinder.BLOCKED;
                 }
                 draw();
