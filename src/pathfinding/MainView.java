@@ -56,12 +56,29 @@ public class MainView extends VBox {
                 double mouseY = event.getY();
                 Point2D box = this.affine.inverseTransform(mouseX, mouseY);
                 
+                // Can't draw outside grid
                 if (box.getX() >= 0 && box.getX() < this.gridWidth && box.getY() >= 0 && box.getY() < this.gridHeight) {
-                    if (((int) box.getX() == this.pf.startNode.getX() && (int) box.getY() == this.pf.startNode.getY()) || 
-                        ((int) box.getX() == this.pf.endNode.getX() && (int) box.getY() == this.pf.endNode.getY())) {
+                    
+                    Node n = new Node((int) box.getX(), (int) box.getY());
+                    //can't draw over start / end Node
+                    if (n.isSameNodeAs(this.pf.startNode) || n.isSameNodeAs(this.pf.endNode)) {
                        return;
                     }
-                    this.pf.maze[(int) box.getY()][(int) box.getX()] = Pathfinder.BLOCKED;
+                    
+                    //if(s is pressed) {
+                    //startnode = n
+                    //}
+                    //else if(e is pressed) {
+                    //endnode = n
+                    //}
+                    
+                    
+                    if(event.getButton() == event.getButton().PRIMARY) {
+                        
+                        this.pf.maze[n.getY()][n.getX()] = Pathfinder.BLOCKED;
+                    } else if(event.getButton() == event.getButton().SECONDARY) {
+                        this.pf.maze[n.getY()][n.getX()] = Pathfinder.UNBLOCKED;
+                    }
                 }
                 draw();
             } catch (NonInvertibleTransformException e) {
