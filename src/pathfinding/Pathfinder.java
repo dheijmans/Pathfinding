@@ -12,8 +12,6 @@ public class Pathfinder {
     
     public static final int UNBLOCKED = 0;
     public static final int BLOCKED = 1;
-    public static final int START = 2;
-    public static final int END = 3;
 
     public int[][] maze;
     public Node startNode, endNode;

@@ -3,6 +3,7 @@ package pathfinding;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -14,7 +15,7 @@ public class MainView extends VBox {
     public int mode;
     public static final int EDITING = 0;
     public static final int RUNNING = 1;
-    
+        
     private final int width, height;    
     private final int gridWidth, gridHeight;
     private final int padding = 1;
@@ -40,8 +41,8 @@ public class MainView extends VBox {
         this.affine.appendTranslation(this.padding, this.padding);
         
         this.pf = new Pathfinder(this.gridWidth, this.gridHeight, this);
-        this.pf.startNode = new Node(3, 6);
-        this.pf.endNode = new Node(57, 28);
+        this.pf.startNode = new Node(3, 3);
+        this.pf.endNode = new Node(60, 32);
        
         this.getChildren().addAll(this.toolbar, this.canvas);
         
@@ -55,28 +56,16 @@ public class MainView extends VBox {
                 double mouseX = event.getX();
                 double mouseY = event.getY();
                 Point2D box = this.affine.inverseTransform(mouseX, mouseY);
-                
-                // Can't draw outside grid
-                if (box.getX() >= 0 && box.getX() < this.gridWidth && box.getY() >= 0 && box.getY() < this.gridHeight) {
-                    
+                //Prevents drawing outside the grid
+                if (box.getX() >= 0 && box.getX() < this.gridWidth && box.getY() >= 0 && box.getY() < this.gridHeight) { 
                     Node n = new Node((int) box.getX(), (int) box.getY());
-                    //can't draw over start / end Node
+                    //Prevents drawing over startnode and endnode
                     if (n.isSameNodeAs(this.pf.startNode) || n.isSameNodeAs(this.pf.endNode)) {
                        return;
                     }
-                    
-                    //if(s is pressed) {
-                    //startnode = n
-                    //}
-                    //else if(e is pressed) {
-                    //endnode = n
-                    //}
-                    
-                    
-                    if(event.getButton() == event.getButton().PRIMARY) {
-                        
+                    if (event.getButton() == MouseButton.PRIMARY) {      
                         this.pf.maze[n.getY()][n.getX()] = Pathfinder.BLOCKED;
-                    } else if(event.getButton() == event.getButton().SECONDARY) {
+                    } else if (event.getButton() == MouseButton.SECONDARY) {
                         this.pf.maze[n.getY()][n.getX()] = Pathfinder.UNBLOCKED;
                     }
                 }
@@ -86,7 +75,6 @@ public class MainView extends VBox {
             }
         }  
     }
-    
     
     public void draw() {
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
