@@ -3,6 +3,8 @@ package pathfinding;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -15,6 +17,8 @@ public class MainView extends VBox {
     public int mode;
     public static final int EDITING = 0;
     public static final int RUNNING = 1;
+    
+    private KeyCode pressedKey = null;
         
     private final int width, height;    
     private final int gridWidth, gridHeight;
@@ -48,6 +52,10 @@ public class MainView extends VBox {
         
         this.canvas.setOnMouseClicked(this::handleEditing);
         this.canvas.setOnMouseDragged(this::handleEditing);
+        
+        setOnKeyPressed(this::handleKeyPressed);
+        setOnKeyReleased(this::handleKeyReleased);
+        
     }
     
     private void handleEditing(MouseEvent event) {
@@ -63,8 +71,16 @@ public class MainView extends VBox {
                     if (n.isSameNodeAs(this.pf.startNode) || n.isSameNodeAs(this.pf.endNode)) {
                        return;
                     }
-                    if (event.getButton() == MouseButton.PRIMARY) {      
-                        this.pf.maze[n.getY()][n.getX()] = Pathfinder.BLOCKED;
+                    if (event.getButton() == MouseButton.PRIMARY) {  
+                        if (this.pressedKey == KeyCode.S) {
+                            this.pf.maze[n.getY()][n.getX()] = Pathfinder.UNBLOCKED;
+                            this.pf.startNode = n;
+                        } else if (this.pressedKey == KeyCode.E) {
+                            this.pf.maze[n.getY()][n.getX()] = Pathfinder.UNBLOCKED;
+                            this.pf.endNode = n;
+                        } else {
+                            this.pf.maze[n.getY()][n.getX()] = Pathfinder.BLOCKED;
+                        }  
                     } else if (event.getButton() == MouseButton.SECONDARY) {
                         this.pf.maze[n.getY()][n.getX()] = Pathfinder.UNBLOCKED;
                     }
@@ -74,6 +90,16 @@ public class MainView extends VBox {
                 System.out.println("Could not invert transform");
             }
         }  
+    }
+    
+    private void handleKeyPressed(KeyEvent event) {
+        this.pressedKey = event.getCode();
+    }
+    
+    private void handleKeyReleased(KeyEvent event) {
+        if(this.pressedKey == event.getCode()) {
+            this.pressedKey = null;                   
+        }
     }
     
     public void draw() {
