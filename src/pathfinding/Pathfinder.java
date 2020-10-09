@@ -117,7 +117,9 @@ public class Pathfinder {
     }
     
     private static int distance(Node a, Node b) {
-        return (int) (10 * Math.sqrt(Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2)));
+        int dx = Math.abs(a.getX() - b.getX());
+        int dy = Math.abs(a.getY() - b.getY());      
+        return 10 * Math.max(dx, dy) + 4 * Math.min(dx, dy);
     }
     
     public static boolean isInList(Node n, ArrayList<Node> list) {
@@ -130,11 +132,7 @@ public class Pathfinder {
     }
     
     private boolean isBlocked(Node n, Node c) {
-        if (this.maze[n.getY()][n.getX()] == BLOCKED) {
-            return true;
-        } else if (n.getX() != c.getX() && n.getY() != c.getY() && this.maze[...][...] == BLOCKED && this.maze[...][...] == BLOCKED) {
-            return true;
-        }
+        return this.maze[n.getY()][n.getX()] == BLOCKED;
     }
     
     private boolean isNewPathShorter(Node current, Node neighbour) {
@@ -155,11 +153,14 @@ public class Pathfinder {
         ArrayList<Node> neighbours = new ArrayList<Node>();
         for (int y = -1; y < 2; y++) {
             for (int x = -1; x < 2; x++) {
-                if (Math.abs(x) == Math.abs(y) && !this.diagonals) {
+                if (x == 0 && y == 0) {
                     continue;
-                } else if (x == 0 && y == 0) {
+                } else if (Math.abs(x) == Math.abs(y) && !this.diagonals) {
                     continue;
                 } else if (n.getX() + x >= 0 && n.getX() + x < this.width && n.getY() + y >= 0 && n.getY() + y < this.height) {
+                    if ((n.getX() != n.getX() + x && n.getY() != n.getY() + y && this.maze[n.getY() + y][n.getX()] == BLOCKED && this.maze[n.getY()][n.getX() + x] == BLOCKED)) {
+                        continue;
+                    }
                     neighbours.add(getNeighbourNode(n.getX() + x, n.getY() + y));
                 }              
             }
