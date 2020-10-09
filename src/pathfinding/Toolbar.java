@@ -14,19 +14,31 @@ public class Toolbar extends ToolBar {
         runButton.setOnAction(this::handleRun);
         Button clearButton = new Button("Clear");
         clearButton.setOnAction(this::handleClear);
-        this.getItems().addAll(runButton, clearButton);
+        Button clearAllButton = new Button("Clear All");
+        clearAllButton.setOnAction(this::handleClearAll);
+        this.getItems().addAll(runButton, clearButton, clearAllButton);
     }
     
     private void handleRun(ActionEvent event) {
-        if (this.mainView.mode == MainView.EDITING) {
+        if (mainView.mode != MainView.RUNNING) {
             this.mainView.mode = MainView.RUNNING;
             this.mainView.getPathfinder().aStar(); 
         }
     }
     
     private void handleClear(ActionEvent event) {
-        if (mainView.mode == MainView.EDITING) {
+        if (mainView.mode != MainView.RUNNING) {
             this.mainView.getPathfinder().clear();
+            mainView.mode = MainView.EDITING;
+        }
+    }
+    
+    private void handleClearAll(ActionEvent event) {
+        if (mainView.mode != MainView.RUNNING) {
+            int[][] maze = this.mainView.getPathfinder().maze;
+            this.mainView.getPathfinder().maze = new int[maze.length][maze[0].length];
+            this.mainView.getPathfinder().clear();
+            mainView.mode = MainView.EDITING;
         }
     }
 

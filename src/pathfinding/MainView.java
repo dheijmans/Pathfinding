@@ -17,8 +17,9 @@ public class MainView extends VBox {
     public int mode;
     public static final int EDITING = 0;
     public static final int RUNNING = 1;
+    public static final int RESULTS = 2;
     
-    private KeyCode pressedKey = null;
+    private KeyCode pressedKey;
         
     private final int width, height;    
     private final int gridWidth, gridHeight;

@@ -18,6 +18,8 @@ public class Pathfinder {
     
     private final int height;
     private final int width;
+    
+    private boolean diagonals = true;
 
     private ArrayList<Node> open = new ArrayList<Node>();
     private ArrayList<Node> closed = new ArrayList<Node>();
@@ -52,7 +54,7 @@ public class Pathfinder {
     private void step() {
         if (this.open.isEmpty()) {
             this.timeline.stop();
-            this.mainView.mode = MainView.EDITING;
+            this.mainView.mode = MainView.RESULTS;
             System.out.println("Impossible path!");
             return;
         }
@@ -62,12 +64,12 @@ public class Pathfinder {
         if (current.isSameNodeAs(this.endNode)) {
             retracePath(current);
             this.timeline.stop();
-            this.mainView.mode = MainView.EDITING;
+            this.mainView.mode = MainView.RESULTS;
         } 
         ArrayList<Node> neighbours = getNeighbours(current);
         for (Node neighbour : neighbours) 
         { 
-            if (isBlocked(neighbour) || isInList(neighbour, this.closed)) {
+            if (isBlocked(neighbour, current) || isInList(neighbour, this.closed)) {
                 continue;
             }    
             if (isNewPathShorter(current, neighbour) || !isInList(neighbour, this.open)) {
@@ -115,7 +117,7 @@ public class Pathfinder {
     }
     
     private static int distance(Node a, Node b) {
-        return Math.abs(a.getX() - b.getX()) + Math.abs(a.getY() - b.getY());
+        return (int) (10 * Math.sqrt(Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2)));
     }
     
     public static boolean isInList(Node n, ArrayList<Node> list) {
@@ -127,8 +129,12 @@ public class Pathfinder {
         return false;
     }
     
-    private boolean isBlocked(Node n) {
-        return this.maze[n.getY()][n.getX()] == BLOCKED;
+    private boolean isBlocked(Node n, Node c) {
+        if (this.maze[n.getY()][n.getX()] == BLOCKED) {
+            return true;
+        } else if (n.getX() != c.getX() && n.getY() != c.getY() && this.maze[...][...] == BLOCKED && this.maze[...][...] == BLOCKED) {
+            return true;
+        }
     }
     
     private boolean isNewPathShorter(Node current, Node neighbour) {
@@ -149,7 +155,9 @@ public class Pathfinder {
         ArrayList<Node> neighbours = new ArrayList<Node>();
         for (int y = -1; y < 2; y++) {
             for (int x = -1; x < 2; x++) {
-                if (Math.abs(x) == Math.abs(y)) {
+                if (Math.abs(x) == Math.abs(y) && !this.diagonals) {
+                    continue;
+                } else if (x == 0 && y == 0) {
                     continue;
                 } else if (n.getX() + x >= 0 && n.getX() + x < this.width && n.getY() + y >= 0 && n.getY() + y < this.height) {
                     neighbours.add(getNeighbourNode(n.getX() + x, n.getY() + y));
@@ -194,7 +202,6 @@ public class Pathfinder {
             this.open.clear();
             this.closed.clear();
             this.path.clear();
-            this.maze = new int[this.height][this.width];
             this.mainView.draw();        
     }
     
