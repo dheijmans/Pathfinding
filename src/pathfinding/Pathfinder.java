@@ -152,7 +152,7 @@ public class Pathfinder {
         return false;
     }
     
-    private boolean isInsideBoundaries(int x, int y) {
+    public boolean isOnGrid(int x, int y) {
         return x >= 0 && x < this.width && y >= 0 && y < this.height;
     }
     
@@ -174,7 +174,7 @@ public class Pathfinder {
                     continue;
                 } else if (Math.abs(x) == Math.abs(y) && !this.diagonal) {
                     continue;
-                } else if (isInsideBoundaries(n.getX() + x, n.getY() + y)) {
+                } else if (isOnGrid(n.getX() + x, n.getY() + y)) {
                     if (isCrossing(n, n.getX() + x, n.getY() + y)) {
                         continue;
                     }

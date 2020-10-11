@@ -64,10 +64,10 @@ public class MainView extends VBox {
             try {
                 double mouseX = event.getX();
                 double mouseY = event.getY();
-                Point2D box = this.affine.inverseTransform(mouseX, mouseY);
+                Point2D mouse = this.affine.inverseTransform(mouseX, mouseY);
                 //Prevents drawing outside the grid
-                if (box.getX() >= 0 && box.getX() < this.gridWidth && box.getY() >= 0 && box.getY() < this.gridHeight) { 
-                    Node n = new Node((int) box.getX(), (int) box.getY());
+                if (this.pf.isOnGrid((int) mouse.getX(), (int) mouse.getY())) { 
+                    Node n = new Node((int) mouse.getX(), (int) mouse.getY());
                     //Prevents drawing over startnode and endnode
                     if (n.isSameNodeAs(this.pf.startNode) || n.isSameNodeAs(this.pf.endNode)) {
                        return;
