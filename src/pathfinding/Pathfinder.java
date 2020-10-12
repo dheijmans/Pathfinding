@@ -48,6 +48,7 @@ public class Pathfinder {
         this.path.clear();
         this.startNode.setF(0, distance(this.startNode, this.endNode));
         this.open.add(this.startNode);
+        this.diagonal = this.mainView.getToolbar().getDiagonalState();
         this.timeline.play();
     }
     
@@ -233,6 +234,10 @@ public class Pathfinder {
     
     public ArrayList<Node> getPath() {
         return this.path;
+    }
+    
+    public Timeline getTimeline() {
+        return this.timeline;
     }
     
 }

@@ -149,4 +149,8 @@ public class MainView extends VBox {
         return this.pf;
     }
     
+    public Toolbar getToolbar() {
+        return this.toolbar;
+    }
+    
 }
