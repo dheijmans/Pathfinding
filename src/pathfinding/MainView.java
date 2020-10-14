@@ -44,7 +44,8 @@ public class MainView extends VBox {
         this.canvas = new Canvas(this.width, this.height);
         
         this.affine = new Affine();
-        this.affine.appendScale(this.canvas.getWidth() / (this.gridWidth + 2 * this.padding), this.canvas.getHeight() / (this.gridHeight + 2 * this.padding));
+        this.affine.appendScale(this.canvas.getWidth() / (this.gridWidth + 2 * this.padding), 
+        this.canvas.getHeight() / (this.gridHeight + 2 * this.padding));
         this.affine.appendTranslation(this.padding, this.padding);
         
         this.pf = new Pathfinder(this.gridWidth, this.gridHeight, this);
@@ -63,6 +64,7 @@ public class MainView extends VBox {
     }
     
     private void handleEditing(MouseEvent event) {
+        this.hoveredNode = null;
         if (this.mode == EDITING) {
             try {
                 double mouseX = event.getX();
@@ -89,11 +91,11 @@ public class MainView extends VBox {
                         this.pf.maze[n.getY()][n.getX()] = Pathfinder.UNBLOCKED;
                     }
                 }
-                draw();
             } catch (NonInvertibleTransformException e) {
                 System.out.println("Could not invert transform");
             }
         }  
+        draw();
     }
     
     private void handleHover(MouseEvent event) {       
@@ -101,9 +103,10 @@ public class MainView extends VBox {
             double mouseX = event.getX();
             double mouseY = event.getY();
             Point2D mouse = this.affine.inverseTransform(mouseX, mouseY);
-            //Prevents drawing outside the grid
             if (this.pf.isOnGrid((int) mouse.getX(), (int) mouse.getY())) { 
                 this.hoveredNode = new Node((int) mouse.getX(), (int) mouse.getY());
+            } else {
+                this.hoveredNode = null;
             }
             draw();
         } catch (NonInvertibleTransformException e) {
@@ -154,7 +157,7 @@ public class MainView extends VBox {
         }
         
         if (this.hoveredNode != null) {
-            gc.setFill(Color.rgb(0, 0, 0, 0.5d));
+            gc.setFill(Color.rgb(0, 0, 0, 0.2d));
             gc.fillRect(this.hoveredNode.getX(), this.hoveredNode.getY(), 1, 1);
         }
         

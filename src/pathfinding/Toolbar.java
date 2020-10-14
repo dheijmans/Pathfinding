@@ -12,25 +12,23 @@ public class Toolbar extends ToolBar {
     private Button runButton = new Button("Run");
     private Button pauseButton = new Button("Pause");
     private Button clearButton = new Button("Clear");
-    private Button clearAllButton = new Button("Clear All");
-        
+    private Button clearAllButton = new Button("Clear All");        
     private CheckBox diagonal = new CheckBox("Diagonals");
 
     public Toolbar(MainView mainView) {
         this.mainView = mainView;
-        
-        runButton.setOnAction(this::handleRun);
-        pauseButton.setOnAction(this::handlePause);
-        clearButton.setOnAction(this::handleClear);
-        clearAllButton.setOnAction(this::handleClearAll);
+        this.runButton.setOnAction(this::handleRun);
+        this.pauseButton.setOnAction(this::handlePause);
+        this.clearButton.setOnAction(this::handleClear);
+        this.clearAllButton.setOnAction(this::handleClearAll);
         this.getItems().addAll(runButton, pauseButton, clearButton, clearAllButton, diagonal);
     }
     
     private void handleRun(ActionEvent event) {
         if (mainView.mode != MainView.RUNNING) {
             this.mainView.mode = MainView.RUNNING;
-            this.mainView.getPathfinder().aStar();
             this.diagonal.setDisable(true);
+            this.mainView.getPathfinder().aStar();
         }
     }
     
@@ -39,7 +37,7 @@ public class Toolbar extends ToolBar {
             this.mainView.getPathfinder().clear();
             this.pauseButton.setText("Pause");
             this.diagonal.setDisable(false);
-            mainView.mode = MainView.EDITING;
+            this.mainView.mode = MainView.EDITING;
         }
     }
     
@@ -50,7 +48,7 @@ public class Toolbar extends ToolBar {
             this.mainView.getPathfinder().clear();
             this.pauseButton.setText("Pause");
             this.diagonal.setDisable(false);
-            mainView.mode = MainView.EDITING;
+            this.mainView.mode = MainView.EDITING;
         }
     }
     
@@ -58,11 +56,11 @@ public class Toolbar extends ToolBar {
         if (mainView.mode == MainView.RUNNING) {
             this.mainView.getPathfinder().getTimeline().pause();
             this.pauseButton.setText("Play");
-            mainView.mode = MainView.PAUSE;
+            this.mainView.mode = MainView.PAUSE;
         } else if(mainView.mode == MainView.PAUSE) {
             this.mainView.getPathfinder().getTimeline().play();
             this.pauseButton.setText("Pause");
-            mainView.mode = MainView.RUNNING;
+            this.mainView.mode = MainView.RUNNING;
         }
         
     }
