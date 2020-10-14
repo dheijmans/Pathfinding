@@ -17,9 +17,11 @@ public class MainView extends VBox {
     public int mode;
     public static final int EDITING = 0;
     public static final int RUNNING = 1;
-    public static final int RESULTS = 2;
+    public static final int PAUSE = 2;
+    public static final int RESULTS = 3;
     
     private KeyCode pressedKey;
+    private Node hoveredNode;
         
     private final int width, height;    
     private final int gridWidth, gridHeight;
@@ -53,6 +55,7 @@ public class MainView extends VBox {
         
         this.canvas.setOnMouseClicked(this::handleEditing);
         this.canvas.setOnMouseDragged(this::handleEditing);
+        this.canvas.setOnMouseMoved(this::handleHover);
         
         setOnKeyPressed(this::handleKeyPressed);
         setOnKeyReleased(this::handleKeyReleased);
@@ -91,6 +94,21 @@ public class MainView extends VBox {
                 System.out.println("Could not invert transform");
             }
         }  
+    }
+    
+    private void handleHover(MouseEvent event) {       
+        try {
+            double mouseX = event.getX();
+            double mouseY = event.getY();
+            Point2D mouse = this.affine.inverseTransform(mouseX, mouseY);
+            //Prevents drawing outside the grid
+            if (this.pf.isOnGrid((int) mouse.getX(), (int) mouse.getY())) { 
+                this.hoveredNode = new Node((int) mouse.getX(), (int) mouse.getY());
+            }
+            draw();
+        } catch (NonInvertibleTransformException e) {
+            System.out.println("Could not invert transform");
+        } 
     }
     
     private void handleKeyPressed(KeyEvent event) {
@@ -133,6 +151,11 @@ public class MainView extends VBox {
                     gc.fillRect(x, y, 1, 1);
                 }
             }
+        }
+        
+        if (this.hoveredNode != null) {
+            gc.setFill(Color.rgb(0, 0, 0, 0.5d));
+            gc.fillRect(this.hoveredNode.getX(), this.hoveredNode.getY(), 1, 1);
         }
         
         gc.setStroke(Color.BLACK);

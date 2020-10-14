@@ -1,6 +1,5 @@
 package pathfinding;
 
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -9,18 +8,20 @@ import javafx.scene.control.ToolBar;
 public class Toolbar extends ToolBar {
     
     private final MainView mainView;
+    
+    private Button runButton = new Button("Run");
+    private Button pauseButton = new Button("Pause");
+    private Button clearButton = new Button("Clear");
+    private Button clearAllButton = new Button("Clear All");
         
-    CheckBox diagonal = new CheckBox("Diagonals");
+    private CheckBox diagonal = new CheckBox("Diagonals");
 
     public Toolbar(MainView mainView) {
         this.mainView = mainView;
-        Button runButton = new Button("Run");
+        
         runButton.setOnAction(this::handleRun);
-        Button pauseButton = new Button("Pause");
         pauseButton.setOnAction(this::handlePause);
-        Button clearButton = new Button("Clear");
         clearButton.setOnAction(this::handleClear);
-        Button clearAllButton = new Button("Clear All");
         clearAllButton.setOnAction(this::handleClearAll);
         this.getItems().addAll(runButton, pauseButton, clearButton, clearAllButton, diagonal);
     }
@@ -28,13 +29,16 @@ public class Toolbar extends ToolBar {
     private void handleRun(ActionEvent event) {
         if (mainView.mode != MainView.RUNNING) {
             this.mainView.mode = MainView.RUNNING;
-            this.mainView.getPathfinder().aStar(); 
+            this.mainView.getPathfinder().aStar();
+            this.diagonal.setDisable(true);
         }
     }
     
     private void handleClear(ActionEvent event) {
         if (mainView.mode != MainView.RUNNING) {
             this.mainView.getPathfinder().clear();
+            this.pauseButton.setText("Pause");
+            this.diagonal.setDisable(false);
             mainView.mode = MainView.EDITING;
         }
     }
@@ -44,16 +48,35 @@ public class Toolbar extends ToolBar {
             int[][] maze = this.mainView.getPathfinder().maze;
             this.mainView.getPathfinder().maze = new int[maze.length][maze[0].length];
             this.mainView.getPathfinder().clear();
+            this.pauseButton.setText("Pause");
+            this.diagonal.setDisable(false);
             mainView.mode = MainView.EDITING;
         }
     }
     
     private void handlePause(ActionEvent event) {
-        this.mainView.getPathfinder().getTimeline().pause();
+        if (mainView.mode == MainView.RUNNING) {
+            this.mainView.getPathfinder().getTimeline().pause();
+            this.pauseButton.setText("Play");
+            mainView.mode = MainView.PAUSE;
+        } else if(mainView.mode == MainView.PAUSE) {
+            this.mainView.getPathfinder().getTimeline().play();
+            this.pauseButton.setText("Pause");
+            mainView.mode = MainView.RUNNING;
+        }
+        
     }
     
     public boolean getDiagonalState() {
         return this.diagonal.isSelected();         
+    }
+    
+    public Button getPauseButton() {
+        return this.pauseButton;     
+    }
+    
+    public CheckBox getDiagonal() {
+        return this.diagonal;     
     }
     
 }

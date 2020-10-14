@@ -49,6 +49,7 @@ public class Pathfinder {
         this.startNode.setF(0, distance(this.startNode, this.endNode));
         this.open.add(this.startNode);
         this.diagonal = this.mainView.getToolbar().getDiagonalState();
+        this.mainView.getToolbar().getPauseButton().setText("Pause");
         this.timeline.play();
     }
     
@@ -57,6 +58,8 @@ public class Pathfinder {
             this.timeline.stop();
             this.mainView.mode = MainView.RESULTS;
             System.out.println("Impossible path!");
+            this.mainView.getToolbar().getPauseButton().setText("Pause");
+            this.mainView.getToolbar().getDiagonal().setDisable(false);
             return;
         }
         Node current = this.setCurrent();
@@ -66,6 +69,7 @@ public class Pathfinder {
             retracePath(current);
             this.timeline.stop();
             this.mainView.mode = MainView.RESULTS;
+            this.mainView.getToolbar().getDiagonal().setDisable(false);
         } 
         ArrayList<Node> neighbours = getNeighbours(current);
         for (Node neighbour : neighbours) 
