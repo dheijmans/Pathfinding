@@ -71,7 +71,7 @@ public class MainView extends VBox {
                 double mouseY = event.getY();
                 Point2D mouse = this.affine.inverseTransform(mouseX, mouseY);
                 //Prevents drawing outside the grid
-                if (this.pf.isOnGrid((int) mouse.getX(), (int) mouse.getY())) { 
+                if (this.pf.isOnGrid((int) Math.floor(mouse.getX()), (int) Math.floor(mouse.getY()))) { 
                     Node n = new Node((int) mouse.getX(), (int) mouse.getY());
                     //Prevents drawing over startnode and endnode
                     if (n.isSameNodeAs(this.pf.startNode) || n.isSameNodeAs(this.pf.endNode)) {
@@ -103,7 +103,7 @@ public class MainView extends VBox {
             double mouseX = event.getX();
             double mouseY = event.getY();
             Point2D mouse = this.affine.inverseTransform(mouseX, mouseY);
-            if (this.pf.isOnGrid((int) mouse.getX(), (int) mouse.getY())) { 
+            if (this.pf.isOnGrid((int) Math.floor(mouse.getX()), (int) Math.floor(mouse.getY()))) { 
                 this.hoveredNode = new Node((int) mouse.getX(), (int) mouse.getY());
             } else {
                 this.hoveredNode = null;
