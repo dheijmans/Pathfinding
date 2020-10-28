@@ -59,7 +59,7 @@ public class Pathfinder {
             this.mainView.getToolbar().getDiagonal().setDisable(false);
             this.timeline.stop();
             this.mainView.mode = MainView.RESULTS;
-            Popup.impossiblePath();
+            Popup.noPossiblePathFound();
             return;
         }
         Node current = this.setCurrent();

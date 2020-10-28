@@ -6,7 +6,7 @@ import javafx.scene.control.Alert.AlertType;
 
 public class Popup {
     
-    public static void impossiblePath() {
+    public static void noPossiblePathFound() {
         Alert alert = new Alert(AlertType.WARNING);
         alert.setTitle("Warning");
         alert.setHeaderText("No Possible Path Found!");
