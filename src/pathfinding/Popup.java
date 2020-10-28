@@ -10,7 +10,7 @@ public class Popup {
         Alert alert = new Alert(AlertType.WARNING);
         alert.setTitle("Warning");
         alert.setHeaderText("No Possible Path Found!");
-        alert.setContentText("Check if you blocked either the start or end node");
+        alert.setContentText("Check if you enclosed either the start or end node");
         Platform.runLater(alert::showAndWait);
     }
     

@@ -54,26 +54,26 @@ public class MainView extends VBox {
        
         this.getChildren().addAll(this.toolbar, this.canvas);
         
-        this.canvas.setOnMouseClicked(this::handleEditing);
-        this.canvas.setOnMouseDragged(this::handleEditing);
-        this.canvas.setOnMouseMoved(this::handleHover);
+        this.canvas.setOnMousePressed(this::handleMouse);
+        this.canvas.setOnMouseDragged(this::handleMouse);
+        this.canvas.setOnMouseMoved(this::handleMouse);
         
         setOnKeyPressed(this::handleKeyPressed);
         setOnKeyReleased(this::handleKeyReleased);
-        
     }
     
-    private void handleEditing(MouseEvent event) {
+    private void handleMouse(MouseEvent event) {
         this.hoveredNode = null;
-        if (this.mode == EDITING) {
-            try {
-                double mouseX = event.getX();
-                double mouseY = event.getY();
-                Point2D mouse = this.affine.inverseTransform(mouseX, mouseY);
-                //Prevents drawing outside the grid
-                if (this.pf.isOnGrid((int) Math.floor(mouse.getX()), (int) Math.floor(mouse.getY()))) { 
-                    Node n = new Node((int) mouse.getX(), (int) mouse.getY());
-                    //Prevents drawing over startnode and endnode
+        try {
+            double mouseX = event.getX();
+            double mouseY = event.getY();
+            Point2D mouse = this.affine.inverseTransform(mouseX, mouseY);
+            //Checks if mouse is on grid or not
+            if (this.pf.isOnGrid((int) Math.floor(mouse.getX()), (int) Math.floor(mouse.getY()))) { 
+                Node n = new Node((int) mouse.getX(), (int) mouse.getY());
+                this.hoveredNode = n;
+                if (this.mode == EDITING) {
+                    //Prevents from drawing over startnode and endnode
                     if (n.isSameNodeAs(this.pf.startNode) || n.isSameNodeAs(this.pf.endNode)) {
                        return;
                     }
@@ -91,27 +91,11 @@ public class MainView extends VBox {
                         this.pf.maze[n.getY()][n.getX()] = Pathfinder.UNBLOCKED;
                     }
                 }
-            } catch (NonInvertibleTransformException e) {
-                System.out.println("Could not invert transform");
             }
-        }  
-        draw();
-    }
-    
-    private void handleHover(MouseEvent event) {       
-        try {
-            double mouseX = event.getX();
-            double mouseY = event.getY();
-            Point2D mouse = this.affine.inverseTransform(mouseX, mouseY);
-            if (this.pf.isOnGrid((int) Math.floor(mouse.getX()), (int) Math.floor(mouse.getY()))) { 
-                this.hoveredNode = new Node((int) mouse.getX(), (int) mouse.getY());
-            } else {
-                this.hoveredNode = null;
-            }
-            draw();
         } catch (NonInvertibleTransformException e) {
             System.out.println("Could not invert transform");
-        } 
+        }
+        draw();
     }
     
     private void handleKeyPressed(KeyEvent event) {
