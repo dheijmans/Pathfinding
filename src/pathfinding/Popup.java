@@ -7,10 +7,10 @@ import javafx.scene.control.Alert.AlertType;
 public class Popup {
     
     public static void impossiblePath() {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Impossible Path");
-        alert.setHeaderText("Impossible Path!");
-        alert.setContentText("Ooops, there was an error finding a path!");
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Warning");
+        alert.setHeaderText("No Possible Path Found!");
+        alert.setContentText("Check if you blocked either the start or end node");
         Platform.runLater(alert::showAndWait);
     }
     
