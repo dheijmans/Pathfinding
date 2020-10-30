@@ -26,7 +26,7 @@ public class Infobar extends HBox {
         this.cursor.setText("Cursor: (" + x + "," + y + ")");
     }
     
-    public void SetMode(int m) {
+    public void setMode(int m) {
         String mode;
         switch(m) {
             case MainView.EDITING:

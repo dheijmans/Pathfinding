@@ -58,7 +58,7 @@ public class Pathfinder {
             this.mainView.getToolbar().getPauseButton().setText("Pause");
             this.mainView.getToolbar().getDiagonal().setDisable(false);
             this.timeline.stop();
-            this.mainView.mode = MainView.RESULTS;
+            this.mainView.setMode(MainView.RESULTS);
             Popup.noPossiblePathFound();
             return;
         }
@@ -69,7 +69,7 @@ public class Pathfinder {
             this.mainView.getToolbar().getDiagonal().setDisable(false);
             retracePath(current);
             this.timeline.stop();
-            this.mainView.mode = MainView.RESULTS;
+            this.mainView.setMode(MainView.RESULTS);
         } 
         ArrayList<Node> neighbours = getNeighbours(current);
         for (Node neighbour : neighbours) 

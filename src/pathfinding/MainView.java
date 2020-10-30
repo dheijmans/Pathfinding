@@ -38,13 +38,13 @@ public class MainView extends VBox {
         this.height = 900;
         this.gridWidth = 64;
         this.gridHeight = 36;
-        
-        this.mode = EDITING;
-        
+                
         this.toolbar = new Toolbar(this);   
         this.canvas = new Canvas(this.width, this.height);
         this.infobar = new Infobar();
         
+        setMode(MainView.EDITING);
+
         this.affine = new Affine();
         this.affine.appendScale(this.canvas.getWidth() / (this.gridWidth + 2 * this.padding), 
         this.canvas.getHeight() / (this.gridHeight + 2 * this.padding));
@@ -112,8 +112,6 @@ public class MainView extends VBox {
     }
     
     public void draw() {
-        this.infobar.SetMode(this.mode);
-        
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
         gc.setTransform(this.affine);
         
@@ -166,6 +164,11 @@ public class MainView extends VBox {
     
     public Toolbar getToolbar() {
         return this.toolbar;
+    }
+    
+    public void setMode(int m) {
+        this.mode = m;
+        this.infobar.setMode(m);
     }
     
 }

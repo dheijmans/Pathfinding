@@ -26,7 +26,7 @@ public class Toolbar extends ToolBar {
     
     private void handleRun(ActionEvent event) {
         if (mainView.mode != MainView.RUNNING) {
-            this.mainView.mode = MainView.RUNNING;
+            this.mainView.setMode(MainView.RUNNING);
             this.diagonal.setDisable(true);
             this.mainView.getPathfinder().aStar();
         }
@@ -37,7 +37,7 @@ public class Toolbar extends ToolBar {
             this.mainView.getPathfinder().clear();
             this.pauseButton.setText("Pause");
             this.diagonal.setDisable(false);
-            this.mainView.mode = MainView.EDITING;
+            this.mainView.setMode(MainView.EDITING);
         }
     }
     
@@ -48,7 +48,7 @@ public class Toolbar extends ToolBar {
             this.mainView.getPathfinder().clear();
             this.pauseButton.setText("Pause");
             this.diagonal.setDisable(false);
-            this.mainView.mode = MainView.EDITING;
+            this.mainView.setMode(MainView.EDITING);
         }
     }
     
@@ -56,12 +56,12 @@ public class Toolbar extends ToolBar {
         if (mainView.mode == MainView.RUNNING) {
             this.mainView.getPathfinder().getTimeline().pause();
             this.pauseButton.setText("Play");
-            this.mainView.mode = MainView.PAUSE;
+            this.mainView.setMode(MainView.PAUSE);
             this.mainView.draw();
         } else if(mainView.mode == MainView.PAUSE) {
             this.mainView.getPathfinder().getTimeline().play();
             this.pauseButton.setText("Pause");
-            this.mainView.mode = MainView.RUNNING;
+            this.mainView.setMode(MainView.RUNNING);
         }
         
     }
