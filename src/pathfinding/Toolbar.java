@@ -57,6 +57,7 @@ public class Toolbar extends ToolBar {
             this.mainView.getPathfinder().getTimeline().pause();
             this.pauseButton.setText("Play");
             this.mainView.mode = MainView.PAUSE;
+            this.mainView.draw();
         } else if(mainView.mode == MainView.PAUSE) {
             this.mainView.getPathfinder().getTimeline().play();
             this.pauseButton.setText("Pause");

@@ -31,6 +31,7 @@ public class MainView extends VBox {
     private final Toolbar toolbar;
     private final Canvas canvas;
     private final Pathfinder pf;
+    private final Infobar infobar;
     
     public MainView() {
         this.width = 1600;
@@ -42,6 +43,7 @@ public class MainView extends VBox {
         
         this.toolbar = new Toolbar(this);   
         this.canvas = new Canvas(this.width, this.height);
+        this.infobar = new Infobar();
         
         this.affine = new Affine();
         this.affine.appendScale(this.canvas.getWidth() / (this.gridWidth + 2 * this.padding), 
@@ -52,7 +54,7 @@ public class MainView extends VBox {
         this.pf.startNode = new Node(3, 3);
         this.pf.endNode = new Node(60, 32);
        
-        this.getChildren().addAll(this.toolbar, this.canvas);
+        this.getChildren().addAll(this.toolbar, this.canvas, this.infobar);
         
         this.canvas.setOnMousePressed(this::handleMouse);
         this.canvas.setOnMouseDragged(this::handleMouse);
@@ -71,6 +73,7 @@ public class MainView extends VBox {
             //Checks if mouse is on grid or not
             if (this.pf.isOnGrid((int) Math.floor(mouse.getX()), (int) Math.floor(mouse.getY()))) { 
                 Node n = new Node((int) mouse.getX(), (int) mouse.getY());
+                this.infobar.SetCursor(n.getX(), n.getY());
                 this.hoveredNode = n;
                 if (this.mode == EDITING) {
                     //Prevents from drawing over startnode and endnode
@@ -109,6 +112,8 @@ public class MainView extends VBox {
     }
     
     public void draw() {
+        this.infobar.SetMode(this.mode);
+        
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
         gc.setTransform(this.affine);
         
