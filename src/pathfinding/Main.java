@@ -9,7 +9,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         MainView mainView = new MainView();
-        Scene scene = new Scene(mainView, 1600, 970);
+        Scene scene = new Scene(mainView, 1850, 970);
         stage.setScene(scene);
         stage.show();
         mainView.draw();

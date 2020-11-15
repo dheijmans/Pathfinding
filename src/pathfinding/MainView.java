@@ -1,5 +1,6 @@
 package pathfinding;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -7,6 +8,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
@@ -32,16 +34,29 @@ public class MainView extends VBox {
     private final Canvas canvas;
     private final Pathfinder pf;
     private final Infobar infobar;
+    private final Sidebar sidebar;
     
     public MainView() {
         this.width = 1600;
         this.height = 900;
         this.gridWidth = 64;
         this.gridHeight = 36;
+        
+        BorderPane root = new BorderPane();
                 
         this.toolbar = new Toolbar(this);   
+        root.setTop(this.toolbar);
+ 
         this.canvas = new Canvas(this.width, this.height);
+        root.setCenter(this.canvas);
+        BorderPane.setMargin(this.canvas, new Insets(0, 0, 0, 0));
+        
+        this.sidebar = new Sidebar();
+        root.setRight(this.sidebar);
+        
         this.infobar = new Infobar();
+        root.setBottom(this.infobar);
+        
         
         setMode(MainView.EDITING);
 
@@ -54,7 +69,7 @@ public class MainView extends VBox {
         this.pf.startNode = new Node(3, 3);
         this.pf.endNode = new Node(60, 32);
        
-        this.getChildren().addAll(this.toolbar, this.canvas, this.infobar);
+        this.getChildren().addAll(root);
         
         this.canvas.setOnMousePressed(this::handleMouse);
         this.canvas.setOnMouseDragged(this::handleMouse);
