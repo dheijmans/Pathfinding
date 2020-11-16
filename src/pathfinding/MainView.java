@@ -27,7 +27,7 @@ public class MainView extends VBox {
         
     private final int width, height;    
     private final int gridWidth, gridHeight;
-    private final int padding = 1;
+    private final double padding = 0.5;
     
     private final Affine affine;
     private final Toolbar toolbar;
@@ -51,10 +51,14 @@ public class MainView extends VBox {
         root.setCenter(this.canvas);
         BorderPane.setMargin(this.canvas, new Insets(0, 0, 0, 0));
         
-        this.sidebar = new Sidebar();
+        this.sidebar = new Sidebar(this);
+        this.sidebar.setMinWidth(250d);
+        this.sidebar.setPadding(new Insets(12, 0, 0, 0));
         root.setRight(this.sidebar);
         
         this.infobar = new Infobar();
+        this.infobar.setMaxWidth(1600d);
+        this.infobar.setPadding(new Insets(0, 12, 0, 12));
         root.setBottom(this.infobar);
         
         
@@ -179,6 +183,10 @@ public class MainView extends VBox {
     
     public Toolbar getToolbar() {
         return this.toolbar;
+    }
+    
+    public Sidebar getSidebar() {
+        return this.sidebar;
     }
     
     public void setMode(int m) {
