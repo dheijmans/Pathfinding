@@ -58,8 +58,7 @@ public class Pathfinder {
             this.mainView.getToolbar().getPauseButton().setText("Pause");
             this.mainView.getToolbar().getDiagonal().setDisable(false);
             this.timeline.stop();
-            this.mainView.setMode(MainView.RESULTS);
-            this.mainView.getSidebar().SetAmountOfSteps(this.path.size() - 1);
+            this.mainView.setMode(MainView.RESULTS);            
             Popup.noPossiblePathFound();
             return;
         }
@@ -71,6 +70,7 @@ public class Pathfinder {
             retracePath(current);
             this.timeline.stop();
             this.mainView.setMode(MainView.RESULTS);
+            this.mainView.getSidebar().setAmountOfSteps(this.path.size() - 1);
         } 
         ArrayList<Node> neighbours = getNeighbours(current);
         for (Node neighbour : neighbours) 
@@ -125,10 +125,11 @@ public class Pathfinder {
     private int distance(Node a, Node b) {
         int dx = Math.abs(a.getX() - b.getX());
         int dy = Math.abs(a.getY() - b.getY());  
-        
+        if (this.diagonal) {
             return 10 * Math.max(dx, dy) + 4 * Math.min(dx, dy);
-       
-//        return (int) Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2));
+        } else {
+            return dx + dy;
+        }
     }
     
     public static boolean isInList(Node n, ArrayList<Node> list) {
@@ -165,7 +166,7 @@ public class Pathfinder {
         Collections.sort(this.open, new Comparator<Node>() {
             @Override
             public int compare(Node a, Node b) {
-                return Integer.compare(a.getG(), b.getG());
+                return Integer.compare(a.getF(), b.getF());
             }
         });
         return this.open.get(0);

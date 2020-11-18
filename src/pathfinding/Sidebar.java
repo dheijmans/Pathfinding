@@ -19,7 +19,7 @@ public class Sidebar extends VBox {
         this.getChildren().addAll(this.steps);          
     }
     
-    public void SetAmountOfSteps(int s) {
+    public void setAmountOfSteps(int s) {
         this.steps.setText("Amount of steps: " + s);
     }
     
