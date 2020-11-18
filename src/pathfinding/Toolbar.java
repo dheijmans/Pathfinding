@@ -28,6 +28,7 @@ public class Toolbar extends ToolBar {
         if (mainView.mode != MainView.RUNNING) {
             this.mainView.setMode(MainView.RUNNING);
             this.diagonal.setDisable(true);
+            this.mainView.getSidebar().setAmountOfSteps(0);
             this.mainView.getPathfinder().aStar();
         }
     }
@@ -38,6 +39,7 @@ public class Toolbar extends ToolBar {
             this.pauseButton.setText("Pause");
             this.diagonal.setDisable(false);
             this.mainView.setMode(MainView.EDITING);
+            this.mainView.getSidebar().setAmountOfSteps(0);
         }
     }
     
@@ -49,6 +51,7 @@ public class Toolbar extends ToolBar {
             this.pauseButton.setText("Pause");
             this.diagonal.setDisable(false);
             this.mainView.setMode(MainView.EDITING);
+            this.mainView.getSidebar().setAmountOfSteps(0);
         }
     }
     

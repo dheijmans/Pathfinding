@@ -72,6 +72,9 @@ public class MainView extends VBox {
         this.pf = new Pathfinder(this.gridWidth, this.gridHeight, this);
         this.pf.startNode = new Node(3, 3);
         this.pf.endNode = new Node(60, 32);
+        
+        getSidebar().setStartNode(this.pf.startNode);
+        getSidebar().setEndNode(this.pf.endNode);
        
         this.getChildren().addAll(root);
         
@@ -103,9 +106,11 @@ public class MainView extends VBox {
                         if (this.pressedKey == KeyCode.S) {
                             this.pf.maze[n.getY()][n.getX()] = Pathfinder.UNBLOCKED;
                             this.pf.startNode = n;
+                            getSidebar().setStartNode(n);
                         } else if (this.pressedKey == KeyCode.E) {
                             this.pf.maze[n.getY()][n.getX()] = Pathfinder.UNBLOCKED;
                             this.pf.endNode = n;
+                            getSidebar().setEndNode(n);
                         } else {
                             this.pf.maze[n.getY()][n.getX()] = Pathfinder.BLOCKED;
                         }  
