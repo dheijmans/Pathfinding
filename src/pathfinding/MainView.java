@@ -112,10 +112,17 @@ public class MainView extends VBox {
                             this.pf.endNode = n;
                             getSidebar().setEndNode(n);
                         } else {
-                            this.pf.maze[n.getY()][n.getX()] = Pathfinder.BLOCKED;
+                            if (this.pf.maze[n.getY()][n.getX()] == Pathfinder.UNBLOCKED) {
+                                this.pf.maze[n.getY()][n.getX()] = Pathfinder.BLOCKED;
+                                getSidebar().addBlockedNode();
+                            }
+                            
                         }  
                     } else if (event.getButton() == MouseButton.SECONDARY) {
-                        this.pf.maze[n.getY()][n.getX()] = Pathfinder.UNBLOCKED;
+                        if (this.pf.maze[n.getY()][n.getX()] == Pathfinder.BLOCKED) {
+                            this.pf.maze[n.getY()][n.getX()] = Pathfinder.UNBLOCKED;
+                        getSidebar().removeBlockedNode();
+                        }
                     }
                 }
             }

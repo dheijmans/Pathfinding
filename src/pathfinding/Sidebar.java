@@ -3,6 +3,7 @@ package pathfinding;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 public class Sidebar extends VBox {
     
@@ -10,9 +11,12 @@ public class Sidebar extends VBox {
     private Label startNode;
     private Label endNode;
     private Label blockedNodes;
+    private Label stats;
     
     private final MainView mainView;
     private final Pathfinder pathfinder;
+    
+    private int totalBlocked;
     
     public Sidebar(MainView mv) {
         this.mainView = mv;
@@ -22,9 +26,14 @@ public class Sidebar extends VBox {
         this.startNode = new Label("Startnode: (0,0)");
         this.endNode = new Label("Endnode: (0,0)");
         this.blockedNodes = new Label("Amount of blocked nodes: 0");
+        this.stats = new Label("Statistics");
+        
+        this.stats.setFont(new Font(20));
+        
+        this.totalBlocked = 0;
         
         this.setAlignment(Pos.TOP_LEFT);
-        this.getChildren().addAll(this.steps, this.startNode, this.endNode, this.blockedNodes);          
+        this.getChildren().addAll(this.stats, this.steps, this.startNode, this.endNode, this.blockedNodes);          
     }
     
     public void setAmountOfSteps(int s) {
@@ -47,8 +56,19 @@ public class Sidebar extends VBox {
         this.endNode.setText("Endnode: (" + (x + 1) + "," + (y + 1) + ")");
     }
     
-    public void setBlockedNodes(int b) {
-        this.blockedNodes.setText("Amount of blocked nodes: " + b);
+    public void addBlockedNode() {
+        this.totalBlocked++;
+        this.blockedNodes.setText("Amount of blocked nodes: " + this.totalBlocked);
+    }
+    
+    public void removeBlockedNode() {
+        this.totalBlocked--;
+        this.blockedNodes.setText("Amount of blocked nodes: " + this.totalBlocked);
+    }
+    
+    public void clearBlockedNode() {
+        this.totalBlocked = 0;
+        this.blockedNodes.setText("Amount of blocked nodes: 0");
     }
        
 }

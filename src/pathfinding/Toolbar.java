@@ -52,6 +52,7 @@ public class Toolbar extends ToolBar {
             this.diagonal.setDisable(false);
             this.mainView.setMode(MainView.EDITING);
             this.mainView.getSidebar().setAmountOfSteps(0);
+            this.mainView.getSidebar().clearBlockedNode();
         }
     }
     
