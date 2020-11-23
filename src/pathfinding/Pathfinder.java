@@ -8,22 +8,36 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.util.Duration;
 
+// importing required functions
+
 public class Pathfinder {
     
     public static final int UNBLOCKED = 0;
     public static final int BLOCKED = 1;
 
+//sets  avalue for wether the Node is blocked or not
+    
     public int[][] maze;
     public Node startNode, endNode;
+    
+    // crates the "Maze", startNode and endNode 
     
     private final int height;
     private final int width;
     
+    // sets height and width for maze
+    
     private boolean diagonal = true;
+    
+    // enables diagonal movement for the pathfinder function
 
     private ArrayList<Node> open = new ArrayList<Node>();
     private ArrayList<Node> closed = new ArrayList<Node>();
     private ArrayList<Node> path = new ArrayList<Node>();
+    
+    // creates lists for "open" Nodes (not yet checked or still checking nodes), 
+    // "closed" Nodes (already checked)
+    // "path" Nodes (the Nodes that give the shortest path)
     
     private final MainView mainView;
     private final Timeline timeline;
@@ -35,12 +49,19 @@ public class Pathfinder {
         this.mainView = mainView;
         this.timeline = new Timeline(new KeyFrame(Duration.millis(10), this::animateStep));
         this.timeline.setCycleCount(Timeline.INDEFINITE);
+        
+        // sets a width, height for Maze
+        // creates the whole thing
+        // sets the "ping" to 10 milliseconds, thus every 10 milliseconds  a Node will get checked
+        // timeline repeats the function
     }
     
     private void animateStep(ActionEvent event) {
         step();
         this.mainView.draw();
     }
+    
+    // execution of timeline function (time after time)
     
     public void aStar() {
         this.open.clear();
@@ -51,6 +72,8 @@ public class Pathfinder {
         this.diagonal = this.mainView.getToolbar().getDiagonalState();
         this.timeline.play();
         this.mainView.getToolbar().getPauseButton().setText("Pause");
+        
+        //
     }
     
     private void step() {
