@@ -117,7 +117,7 @@ public class Pathfinder {
                 }                        
             }
             
-            // checks G & H values (and thus creates the F) and decides wethe rot not a certain path is faster as another
+            // checks G & H values (and thus creates the F) and decides wether ot not a certain path is faster as another
         }
     }
     
@@ -173,15 +173,19 @@ public class Pathfinder {
         }
         return false;
         
-        // checks wethe or not 
+        // checks wether or not the currentNode is already in a list
     }
     
     private boolean isBlocked(Node n) {
         return this.maze[n.getY()][n.getX()] == BLOCKED;
+        
+        // checks if the Node is blocked
     }
     
     private boolean isNewPathShorter(Node current, Node neighbour) {
         return current.getG() + distance(current, neighbour) < neighbour.getG();
+        
+        // is new path shorther check
     }
     
     private boolean isCrossing(Node n, int x, int y) {
@@ -189,14 +193,18 @@ public class Pathfinder {
             if (this.maze[n.getY()][x] == BLOCKED && this.maze[y][n.getX()] == BLOCKED) {
                 return true;
             }
+            
         }
         return false;
+        
+        // prevents diagonal movement through blockades
     }
     
     public boolean isOnGrid(int x, int y) {
         return x >= 0 && x < this.width && y >= 0 && y < this.height;
     }
     
+    // checks if the to be checked nodes are in the grid
     private Node setCurrent() {
         Collections.sort(this.open, new Comparator<Node>() {
             @Override
@@ -205,6 +213,7 @@ public class Pathfinder {
             }
         });
         return this.open.get(0);
+        //
     }
     
     private ArrayList<Node> getNeighbours(Node n) {
