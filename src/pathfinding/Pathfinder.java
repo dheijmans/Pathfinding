@@ -73,7 +73,7 @@ public class Pathfinder {
         this.timeline.play();
         this.mainView.getToolbar().getPauseButton().setText("Pause");
         
-        //
+        // sets basic state for the Pathfinder, whereas the lists are empty, checks for diagonal option and sets the pause button correctly
     }
     
     private void step() {
@@ -84,6 +84,8 @@ public class Pathfinder {
             this.mainView.setMode(MainView.RESULTS);            
             Popup.noPossiblePathFound();
             return;
+            
+            // sets results when results are found
         }
         Node current = this.setCurrent();
         this.open.remove(current);
@@ -94,6 +96,8 @@ public class Pathfinder {
             this.timeline.stop();
             this.mainView.setMode(MainView.RESULTS);
             this.mainView.getSidebar().setAmountOfSteps(this.path.size() - 1);
+            
+            // sets currentNode in closed list, unless the currentNode = endNode, then shows path and sets the path length in the sidebar
         } 
         ArrayList<Node> neighbours = getNeighbours(current);
         for (Node neighbour : neighbours) 
@@ -112,6 +116,8 @@ public class Pathfinder {
                     updateOpen(neighbour);                       
                 }                        
             }
+            
+            // checks G & H values (and thus creates the F) and decides wethe rot not a certain path is faster as another
         }
     }
     
@@ -119,6 +125,7 @@ public class Pathfinder {
         System.out.print("  ");
         for (int x = 1; x < this.maze[0].length - 1; x++) {
             System.out.print(x % 10 + " ");
+            
         }
         System.out.println();
         for (int y = 0; y < this.maze.length; y++) {
@@ -143,6 +150,7 @@ public class Pathfinder {
                 System.out.println();
             }
         }
+        // displays values of the maze in console (used during testing when canvas was unavailable)
     }
     
     private int distance(Node a, Node b) {
@@ -153,6 +161,8 @@ public class Pathfinder {
         } else {
             return dx + dy;
         }
+        
+        // returns x and y distance traveled between two nodes
     }
     
     public static boolean isInList(Node n, ArrayList<Node> list) {
@@ -162,6 +172,8 @@ public class Pathfinder {
             }
         }
         return false;
+        
+        // checks wethe or not 
     }
     
     private boolean isBlocked(Node n) {
