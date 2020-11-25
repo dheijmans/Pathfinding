@@ -15,12 +15,12 @@ public class Pathfinder {
     public static final int UNBLOCKED = 0;
     public static final int BLOCKED = 1;
 
-//sets  avalue for wether the Node is blocked or not
+    // sets a value for wether the Node is blocked or not
     
     public int[][] maze;
     public Node startNode, endNode;
     
-    // crates the "Maze", startNode and endNode 
+    // creates the "Maze", startNode and endNode 
     
     private final int height;
     private final int width;

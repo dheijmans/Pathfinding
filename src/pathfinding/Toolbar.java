@@ -21,6 +21,7 @@ public class Toolbar extends ToolBar {
         this.pauseButton.setOnAction(this::handlePause);
         this.clearButton.setOnAction(this::handleClear);
         this.clearAllButton.setOnAction(this::handleClearAll);
+        this.diagonal.setSelected(true);
         this.getItems().addAll(runButton, pauseButton, clearButton, clearAllButton, diagonal);
     }
     
