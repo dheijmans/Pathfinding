@@ -31,6 +31,8 @@ public class Sidebar extends VBox {
         this.endNode = new Label("Endnode: (0,0)");
         this.blockedNodes = new Label("Amount of blocked nodes: 0");
         
+        Label spacer = new Label("      ");
+        
         Label legend = new Label("Legend");
         legend.setFont(new Font(20));
                                
@@ -70,13 +72,21 @@ public class Sidebar extends VBox {
         Text txtPath = new Text(" - Path");
         path.getChildren().addAll(blockPath, txtPath);
 
+        Label controls = new Label("Controls");
+        controls.setFont(new Font(20));
+        
+        Label controlsBlock = new Label("Press Left Mouse to draw blocked");
+        Label controlsStart = new Label("Hold S and press Left Mouse to draw the start");
+        Label controlsEnd = new Label("Hold E and press Left Mouse to draw the end");
+        Label controlsClear = new Label("Press Clear to clear the open and closed");
+        Label controlsClearAll = new Label("Press Clear All to clear the whole grid");
         
         
         
         this.totalBlocked = 0;
         
         this.setAlignment(Pos.TOP_LEFT);
-        this.getChildren().addAll(stats, this.steps, this.startNode, this.endNode, this.blockedNodes, legend, start, end, blocked, open, closed, path);          
+        this.getChildren().addAll(stats, this.steps, this.startNode, this.endNode, this.blockedNodes, spacer, legend, start, end, blocked, open, closed, path, spacer, controls, controlsBlock, controlsStart, controlsEnd, controlsClear, controlsClearAll);          
     }
     
     public void setAmountOfSteps(int s) {
