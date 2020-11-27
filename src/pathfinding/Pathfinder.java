@@ -213,7 +213,8 @@ public class Pathfinder {
             }
         });
         return this.open.get(0);
-        //
+        
+        // sets a new current node depending on the shortest distance
     }
     
     private ArrayList<Node> getNeighbours(Node n) {
@@ -233,6 +234,8 @@ public class Pathfinder {
             }
         }
         return neighbours;
+        
+        // checks which Nodes are the neighbours from the currentNode
     }
     
     private Node getNeighbourNode(int x, int y) {
@@ -242,6 +245,8 @@ public class Pathfinder {
             }
         }
         return new Node(x, y);
+        
+        // selects a new node
     }
     
     private void updateOpen(Node n) {
@@ -252,6 +257,7 @@ public class Pathfinder {
                 return;
             }
         }
+        // puts the currentNode in the correct list
     }
     
     private void retracePath(Node n) {
@@ -264,6 +270,7 @@ public class Pathfinder {
         }
         Collections.reverse(path);
         this.path = path;
+        // checks which nodes are in the path list and check the smallest route, then displays the shortest route
     }
     
     public void clear() {
@@ -271,22 +278,27 @@ public class Pathfinder {
         this.closed.clear();
         this.path.clear();
         this.mainView.draw();        
+        // clears all list when the clear button is pushed
     }
     
     public ArrayList<Node> getOpen() {
         return this.open;
+        // checks which nodes are in the open list
     }
     
     public ArrayList<Node> getClosed() {
         return this.closed;
+        // checks which nodes are in the closed list
     }
     
     public ArrayList<Node> getPath() {
         return this.path;
+        // checks which nodes are in the Path list
     }
     
     public Timeline getTimeline() {
         return this.timeline;
+        // returns timeline
     }
     
 }
