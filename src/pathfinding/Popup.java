@@ -4,6 +4,8 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+// importing functions we need
+
 public class Popup {
     
     public static void noPossiblePathFound() {
