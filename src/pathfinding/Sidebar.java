@@ -31,7 +31,8 @@ public class Sidebar extends VBox {
         this.endNode = new Label("Endnode: (0,0)");
         this.blockedNodes = new Label("Amount of blocked nodes: 0");
         
-        Label spacer = new Label("      ");
+        Label spacer1 = new Label("      ");
+        Label spacer2 = new Label("      ");
         
         Label legend = new Label("Legend");
         legend.setFont(new Font(20));
@@ -86,7 +87,7 @@ public class Sidebar extends VBox {
         this.totalBlocked = 0;
         
         this.setAlignment(Pos.TOP_LEFT);
-        this.getChildren().addAll(stats, this.steps, this.startNode, this.endNode, this.blockedNodes, spacer, legend, start, end, blocked, open, closed, path, spacer, controls, controlsBlock, controlsStart, controlsEnd, controlsClear, controlsClearAll);          
+        this.getChildren().addAll(stats, this.steps, this.startNode, this.endNode, this.blockedNodes, spacer1, legend, start, end, blocked, open, closed, path, spacer2, controls, controlsBlock, controlsStart, controlsEnd, controlsClear, controlsClearAll);          
     }
     
     public void setAmountOfSteps(int s) {
