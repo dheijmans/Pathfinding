@@ -14,6 +14,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.NonInvertibleTransformException;
 
+// once again just importing the functions
+
 public class MainView extends VBox {
     
     public int mode;
@@ -21,13 +23,17 @@ public class MainView extends VBox {
     public static final int RUNNING = 1;
     public static final int PAUSE = 2;
     public static final int RESULTS = 3;
+    // sets values for the mode the program is in
     
     private KeyCode pressedKey;
     private Node hoveredNode;
+    // values for if a key is pressed and if something hovers on a certain position
         
     private final int width, height;    
     private final int gridWidth, gridHeight;
     private final double padding = 0.5;
+    
+    // sets width and height and padding
     
     private final Affine affine;
     private final Toolbar toolbar;
@@ -35,12 +41,14 @@ public class MainView extends VBox {
     private final Pathfinder pf;
     private final Infobar infobar;
     private final Sidebar sidebar;
+    // constructor mainview class
     
     public MainView() {
         this.width = 1600;
         this.height = 900;
         this.gridWidth = 64;
         this.gridHeight = 36;
+        // stes widht and height for the window and for the grid
         
         BorderPane root = new BorderPane();
                 
@@ -55,11 +63,13 @@ public class MainView extends VBox {
         this.sidebar.setMinWidth(250d);
         this.sidebar.setPadding(new Insets(12, 0, 0, 0));
         root.setRight(this.sidebar);
+        // sets a minimal size for the sidebar
         
         this.infobar = new Infobar();
         this.infobar.setMaxWidth(1600d);
         this.infobar.setPadding(new Insets(0, 12, 0, 12));
         root.setBottom(this.infobar);
+        // sets max width for infobar 
         
         
         setMode(MainView.EDITING);
@@ -84,6 +94,7 @@ public class MainView extends VBox {
         
         setOnKeyPressed(this::handleKeyPressed);
         setOnKeyReleased(this::handleKeyReleased);
+        // enables all functions for the editing mode such as placing start / end node
     }
     
     private void handleMouse(MouseEvent event) {
@@ -118,28 +129,33 @@ public class MainView extends VBox {
                             }
                             
                         }  
+                        // allows you to set nodes to certain states (bocked, unblocked, start / node, with primary mouse during editing mode
                     } else if (event.getButton() == MouseButton.SECONDARY) {
                         if (this.pf.maze[n.getY()][n.getX()] == Pathfinder.BLOCKED) {
                             this.pf.maze[n.getY()][n.getX()] = Pathfinder.UNBLOCKED;
                         getSidebar().removeBlockedNode();
                         }
+                        // lets you remove blocked nodes by using the secondary mouse buttong
                     }
                 }
             }
         } catch (NonInvertibleTransformException e) {
             System.out.println("Could not invert transform");
+            // when error between mousx&y to gridx&y gives error message
         }
         draw();
     }
     
     private void handleKeyPressed(KeyEvent event) {
         this.pressedKey = event.getCode();
+        // checks if a certain key is pressed
     }
     
     private void handleKeyReleased(KeyEvent event) {
         if(this.pressedKey == event.getCode()) {
             this.pressedKey = null;                   
         }
+        // checks if the node is released
     }
     
     public void draw() {
@@ -148,6 +164,7 @@ public class MainView extends VBox {
         
         gc.setFill(Color.LIGHTGRAY);
         gc.fillRect(0, 0, this.gridWidth, this.gridHeight);
+        // colouring and sizing of the grid
 
         for (int y = 0; y < this.pf.maze.length; y++) {
             for (int x = 0; x < this.pf.maze[0].length; x++) {
@@ -172,11 +189,13 @@ public class MainView extends VBox {
                     gc.fillRect(x, y, 1, 1);
                 }
             }
+            // sets colours for the nodes (start, end, block / not blocked, open, path, closed
         }
         
         if (this.hoveredNode != null) {
             gc.setFill(Color.rgb(0, 0, 0, 0.2d));
             gc.fillRect(this.hoveredNode.getX(), this.hoveredNode.getY(), 1, 1);
+            // sets a light colour for the node themouse is hovering at
         }
         
         gc.setStroke(Color.BLACK);
@@ -187,23 +206,28 @@ public class MainView extends VBox {
         for (int i = 0; i < this.gridHeight + 1; i++) {
             gc.strokeLine(0, i, this.gridWidth, i);
         }
+        // sets values and colours for the stroke
     }
     
     public Pathfinder getPathfinder() {
         return this.pf;
+        // gets pathfinder function
     }
     
     public Toolbar getToolbar() {
         return this.toolbar;
+        // gets toolbar function
     }
     
     public Sidebar getSidebar() {
         return this.sidebar;
+        // gets sidebar function
     }
     
     public void setMode(int m) {
         this.mode = m;
         this.infobar.setMode(m);
+        // ste smode the pathfinder is in
     }
     
 }
