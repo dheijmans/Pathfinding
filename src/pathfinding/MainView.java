@@ -227,7 +227,7 @@ public class MainView extends VBox {
     public void setMode(int m) {
         this.mode = m;
         this.infobar.setMode(m);
-        // ste smode the pathfinder is in
+        // sets mode the pathfinder is in
     }
     
 }
