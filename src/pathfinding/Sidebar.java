@@ -8,6 +8,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+// once again just importing a bunch of functions
+
 public class Sidebar extends VBox {
     
     private Label steps;
@@ -88,13 +90,16 @@ public class Sidebar extends VBox {
         
         this.setAlignment(Pos.TOP_LEFT);
         this.getChildren().addAll(stats, this.steps, this.startNode, this.endNode, this.blockedNodes, spacer1, legend, start, end, blocked, open, closed, path, spacer2, controls, controlsBlock, controlsStart, controlsEnd, controlsClear, controlsClearAll);          
+        // creates a box to the right of the pathfinder where information is displayed
     }
+    
     
     public void setAmountOfSteps(int s) {
         if(s == 0) {
             this.steps.setText("Amount of steps: -");
         } else {
             this.steps.setText("Amount of steps: " + s);
+            // calculates amount of steps
         }
     }
     
@@ -102,27 +107,32 @@ public class Sidebar extends VBox {
         int x = n.getX();
         int y = n.getY();
         this.startNode.setText("Startnode: (" + (x + 1) + "," + (y + 1) + ")");
+        // gets startNode coordinates
     }
     
     public void setEndNode(Node n) {
         int x = n.getX();
         int y = n.getY();
         this.endNode.setText("Endnode: (" + (x + 1) + "," + (y + 1) + ")");
+        // gets coordinates for endNode
     }
     
     public void addBlockedNode() {
         this.totalBlocked++;
         this.blockedNodes.setText("Amount of blocked nodes: " + this.totalBlocked);
+        // adds a blocked node to the statistics when there is one added in the pathfinder
     }
     
     public void removeBlockedNode() {
         this.totalBlocked--;
         this.blockedNodes.setText("Amount of blocked nodes: " + this.totalBlocked);
+        // removes a blocked node to the statistics when there is one added in the pathfinder
     }
     
     public void clearBlockedNode() {
         this.totalBlocked = 0;
         this.blockedNodes.setText("Amount of blocked nodes: 0");
+        // sets blocked nodes value in info bar to 0 a start of the application 
     }
        
 }

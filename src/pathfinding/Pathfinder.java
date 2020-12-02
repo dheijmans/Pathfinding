@@ -50,7 +50,7 @@ public class Pathfinder {
         this.timeline = new Timeline(new KeyFrame(Duration.millis(10), this::animateStep));
         this.timeline.setCycleCount(Timeline.INDEFINITE);
         
-        // sets a width, height for Maze
+        // sets a width and height for Maze
         // creates the whole thing
         // sets the "ping" to 10 milliseconds, thus every 10 milliseconds  a Node will get checked
         // timeline repeats the function

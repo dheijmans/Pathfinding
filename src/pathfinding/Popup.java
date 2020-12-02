@@ -15,5 +15,6 @@ public class Popup {
         alert.setContentText("Check if you enclosed either the start or end node");
         Platform.runLater(alert::showAndWait);
     }
+    // shows popup when there is no path found
     
 }

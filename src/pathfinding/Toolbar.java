@@ -5,6 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ToolBar;
 
+// importing functions once again
+
 public class Toolbar extends ToolBar {
     
     private final MainView mainView;
@@ -14,6 +16,8 @@ public class Toolbar extends ToolBar {
     private Button clearButton = new Button("Clear");
     private Button clearAllButton = new Button("Clear All");        
     private CheckBox diagonal = new CheckBox("Diagonals");
+    
+    // creating buttons and such
 
     public Toolbar(MainView mainView) {
         this.mainView = mainView;
@@ -23,6 +27,7 @@ public class Toolbar extends ToolBar {
         this.clearAllButton.setOnAction(this::handleClearAll);
         this.diagonal.setSelected(true);
         this.getItems().addAll(runButton, pauseButton, clearButton, clearAllButton, diagonal);
+        // sets correct actions for buttons
     }
     
     private void handleRun(ActionEvent event) {
@@ -32,6 +37,7 @@ public class Toolbar extends ToolBar {
             this.mainView.getSidebar().setAmountOfSteps(0);
             this.mainView.getPathfinder().aStar();
         }
+        // makes the program run throught the Pathfinder timeline loop
     }
     
     private void handleClear(ActionEvent event) {
@@ -42,6 +48,7 @@ public class Toolbar extends ToolBar {
             this.mainView.setMode(MainView.EDITING);
             this.mainView.getSidebar().setAmountOfSteps(0);
         }
+        // clears the canvas from results when button is pressed
     }
     
     private void handleClearAll(ActionEvent event) {
@@ -55,6 +62,7 @@ public class Toolbar extends ToolBar {
             this.mainView.getSidebar().setAmountOfSteps(0);
             this.mainView.getSidebar().clearBlockedNode();
         }
+        // clears all results and blocked nodes when the button is pressed
     }
     
     private void handlePause(ActionEvent event) {
@@ -68,19 +76,23 @@ public class Toolbar extends ToolBar {
             this.pauseButton.setText("Pause");
             this.mainView.setMode(MainView.RUNNING);
         }
+        // pauses the timeline and displays current state
         
     }
     
     public boolean getDiagonalState() {
-        return this.diagonal.isSelected();         
+        return this.diagonal.isSelected();     
+        // checks if diagonal function is selected or not
     }
     
     public Button getPauseButton() {
-        return this.pauseButton;     
+        return this.pauseButton;   
+        // returns pause button when called
     }
     
     public CheckBox getDiagonal() {
         return this.diagonal;     
+        // sets diagonal box to disabled when is not selected
     }
     
 }
