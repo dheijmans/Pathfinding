@@ -1,2 +1,2 @@
 # Pathfinding
-In /src/pathfinding staan alle classe
+In /src/pathfinding staan alle classes
